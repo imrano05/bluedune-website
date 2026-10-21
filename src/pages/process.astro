@@ -1,0 +1,242 @@
+---
+import BaseLayout from '../layouts/BaseLayout.astro';
+import ProcessTimeline from '../components/ProcessTimeline.astro';
+
+const commitments = [
+  {
+    title: "Honest scoping",
+    desc: "We quote what is actually needed to solve the problem reliably, never padding estimates or under-scoping to win a contract.",
+    icon: `<circle cx="12" cy="12" r="10"></circle><polyline points="12 6 12 12 14 14"></polyline>`
+  },
+  {
+    title: "Visible progress",
+    desc: "You see working software and verifiable data pipelines in staging early and often, not just slide decks or vague status reports.",
+    icon: `<path d="M2 12h20"></path><path d="M20 12v6a2 2 0 0 1-2 2H6a2 2 0 0 1-2-2v-6"></path><path d="m12 2 4 4-4 4"></path>`
+  },
+  {
+    title: "Quality built into delivery",
+    desc: "Automated testing, data validation, and clean architecture are standard parts of our delivery, never optional add-ons.",
+    icon: `<path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"></path>`
+  },
+  {
+    title: "No orphaned systems",
+    desc: "Documentation, handover and support planned before launch. We ensure your team understands every component and operational runbook.",
+    icon: `<path d="M16 21v-2a4 4 0 0 0-4-4H6a4 4 0 0 0-4 4v2"></path><circle cx="9" cy="7" r="4"></circle><path d="M22 21v-2a4 4 0 0 0-3-3.87"></path><path d="M16 3.13a4 4 0 0 1 0 7.75"></path>`
+  }
+];
+---
+
+<BaseLayout
+  title="Delivery Process & Commitments | BlueDuneSolution"
+  description="Discover our six-stage software delivery methodology from audit and architecture to launch and long-term support."
+>
+  <!-- Process Page Hero -->
+  <section class="section section-dark process-hero">
+    <div class="container">
+      <div class="process-hero-content reveal-on-scroll">
+        <span class="section-tag">Engineering Methodology</span>
+        <h1 class="page-title">Predictable delivery with zero surprises.</h1>
+        <p class="page-lead">
+          From the initial data audit through architecture design to production cutover and operational support, our six-stage process ensures clear milestones and verifiable outcomes.
+        </p>
+      </div>
+    </div>
+  </section>
+
+  <!-- Four Commitments in Cards -->
+  <section class="section section-dark-alt commitments-section" aria-labelledby="commitments-title">
+    <div class="container">
+      <div class="section-header reveal-on-scroll">
+        <span class="section-tag">Core Principles</span>
+        <h2 id="commitments-title" class="section-title">Our commitments to clients</h2>
+        <p class="section-subtitle">
+          How we govern engineering quality, timelines, and relationships across every project.
+        </p>
+      </div>
+
+      <div class="commitments-grid">
+        {commitments.map((item, idx) => (
+          <div class="commitment-card reveal-on-scroll" style={`transition-delay: ${idx * 80}ms;`}>
+            <div class="commitment-icon-box" aria-hidden="true">
+              <svg
+                width="24"
+                height="24"
+                viewBox="0 0 24 24"
+                fill="none"
+                stroke="currentColor"
+                stroke-width="2"
+                stroke-linecap="round"
+                stroke-linejoin="round"
+                set:html={item.icon}
+              />
+            </div>
+            <h3 class="commitment-title">{item.title}</h3>
+            <p class="commitment-desc">{item.desc}</p>
+          </div>
+        ))}
+      </div>
+    </div>
+  </section>
+
+  <!-- Six Steps Animated Vertical Timeline -->
+  <section class="section section-dark timeline-page-section" aria-labelledby="timeline-steps-title">
+    <div class="container">
+      <div class="section-header reveal-on-scroll">
+        <span class="section-tag">The Six Steps</span>
+        <h2 id="timeline-steps-title" class="section-title">From audit to production support</h2>
+        <p class="section-subtitle">
+          Each stage delivers specific technical assets and milestones that keep the project transparent and on schedule.
+        </p>
+      </div>
+
+      <ProcessTimeline variant="process-vertical" />
+    </div>
+  </section>
+
+  <!-- Next Step CTA -->
+  <section class="section section-dark-alt process-cta-section">
+    <div class="container container-narrow">
+      <div class="process-cta-box reveal-on-scroll">
+        <h2 class="cta-box-title">Ready to begin Discovery?</h2>
+        <p class="cta-box-desc">
+          Tell us about your data sources, technical constraints, and goals. We reply within one business day with practical next steps.
+        </p>
+        <div class="cta-box-actions">
+          <a href="/contact" class="btn btn-primary">
+            <span>Send us a project brief</span>
+            <svg class="arrow-icon" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round">
+              <line x1="5" y1="12" x2="19" y2="12"></line>
+              <polyline points="12 5 19 12 12 19"></polyline>
+            </svg>
+          </a>
+        </div>
+      </div>
+    </div>
+  </section>
+</BaseLayout>
+
+<style>
+  .process-hero {
+    padding-block: clamp(3.5rem, 7vw, 5.5rem);
+    background: radial-gradient(circle at 70% 30%, rgba(27, 63, 125, 0.25) 0%, transparent 60%), #172031;
+    border-bottom: 1px solid rgba(41, 182, 212, 0.12);
+  }
+
+  .process-hero-content {
+    max-width: 800px;
+  }
+
+  .page-title {
+    font-size: clamp(2.35rem, 5vw, 3.6rem);
+    font-weight: 700;
+    color: #FFFFFF;
+    margin-block: 1rem 1.25rem;
+  }
+
+  .page-lead {
+    font-size: clamp(1.1rem, 2vw, 1.3rem);
+    color: #CBD5E1;
+    line-height: 1.6;
+  }
+
+  /* Commitments */
+  .section-header {
+    text-align: center;
+    max-width: 680px;
+    margin-inline: auto;
+    margin-block-end: clamp(2.5rem, 5vw, 3.5rem);
+  }
+
+  .commitments-grid {
+    display: grid;
+    grid-template-columns: 1fr;
+    gap: 1.5rem;
+  }
+
+  @media (min-width: 640px) {
+    .commitments-grid {
+      grid-template-columns: repeat(2, 1fr);
+    }
+  }
+
+  @media (min-width: 1024px) {
+    .commitments-grid {
+      grid-template-columns: repeat(4, 1fr);
+    }
+  }
+
+  .commitment-card {
+    background: rgba(23, 32, 49, 0.75);
+    border: 1px solid rgba(41, 182, 212, 0.16);
+    border-radius: var(--radius-lg);
+    padding: 2rem 1.75rem;
+    display: flex;
+    flex-direction: column;
+    gap: 1rem;
+    transition: transform 0.25s ease, border-color 0.25s ease;
+  }
+
+  .commitment-card:hover {
+    transform: translateY(-4px);
+    border-color: rgba(41, 182, 212, 0.45);
+  }
+
+  .commitment-icon-box {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    width: 46px;
+    height: 46px;
+    border-radius: var(--radius-md);
+    background: rgba(41, 182, 212, 0.12);
+    border: 1px solid rgba(41, 182, 212, 0.25);
+    color: var(--color-cyan);
+  }
+
+  .commitment-title {
+    font-size: 1.25rem;
+    font-weight: 600;
+    color: #FFFFFF;
+  }
+
+  .commitment-desc {
+    font-size: 0.95rem;
+    color: #94A3B8;
+    line-height: 1.6;
+    margin: 0;
+  }
+
+  /* Timeline Section */
+  .timeline-page-section {
+    padding-block: clamp(4.5rem, 8vw, 7.5rem);
+  }
+
+  /* Process CTA Box */
+  .process-cta-box {
+    background: rgba(27, 63, 125, 0.2);
+    border: 1px solid rgba(41, 182, 212, 0.25);
+    border-radius: var(--radius-xl);
+    padding: clamp(2.5rem, 5vw, 3.5rem);
+    text-align: center;
+  }
+
+  .cta-box-title {
+    font-size: clamp(1.85rem, 3.5vw, 2.45rem);
+    color: #FFFFFF;
+    margin-block-end: 1rem;
+  }
+
+  .cta-box-desc {
+    font-size: 1.1rem;
+    color: #CBD5E1;
+    line-height: 1.6;
+    max-width: 620px;
+    margin-inline: auto;
+    margin-block-end: 2rem;
+  }
+
+  .cta-box-actions {
+    display: flex;
+    justify-content: center;
+  }
+</style>

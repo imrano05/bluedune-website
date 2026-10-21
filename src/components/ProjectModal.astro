@@ -1,0 +1,300 @@
+---
+import SchematicSvg from './SchematicSvg.astro';
+
+export interface Project {
+  id: string;
+  title: string;
+  client: string;
+  clientNote?: string;
+  deliveryTag: "Named client" | "Delivered via partner";
+  problem: string;
+  whatWeBuilt: string;
+  stack: string[];
+  projectType: "transport" | "arabic-legal" | "uk-construction";
+}
+
+export interface Props {
+  project: Project;
+}
+
+const { project } = Astro.props;
+---
+
+<div
+  id={`project-modal-${project.id}`}
+  class="project-modal-backdrop"
+  role="dialog"
+  aria-modal="true"
+  aria-labelledby={`modal-title-${project.id}`}
+  aria-hidden="true"
+  tabindex="-1"
+>
+  <div class="modal-dialog-content">
+    <div class="modal-header">
+      <div class="modal-tags">
+        <span class={`badge-tag ${project.deliveryTag === 'Named client' ? 'badge-tag-named' : 'badge-tag-partner'}`}>
+          {project.deliveryTag}
+        </span>
+      </div>
+      <button
+        class="modal-close-btn"
+        aria-label="Close project details"
+        data-close-modal={project.id}
+      >
+        <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+          <line x1="18" y1="6" x2="6" y2="18"></line>
+          <line x1="6" y1="6" x2="18" y2="18"></line>
+        </svg>
+      </button>
+    </div>
+
+    <div class="modal-body">
+      <h3 id={`modal-title-${project.id}`} class="modal-title">
+        {project.title}
+      </h3>
+
+      <!-- Architecture Schematic -->
+      <div class="modal-schematic-wrap">
+        <SchematicSvg projectType={project.projectType} />
+      </div>
+
+      <!-- Identical Layout: Client, Problem, What we built, Stack, Delivery tag -->
+      <div class="modal-grid-spec">
+        <div class="spec-row">
+          <span class="spec-label">Client</span>
+          <span class="spec-value">
+            {project.client}
+            {project.clientNote && <small class="spec-note">{project.clientNote}</small>}
+          </span>
+        </div>
+
+        <div class="spec-row">
+          <span class="spec-label">Delivery tag</span>
+          <span class="spec-value">{project.deliveryTag}</span>
+        </div>
+
+        <div class="spec-row">
+          <span class="spec-label">Problem</span>
+          <p class="spec-text">{project.problem}</p>
+        </div>
+
+        <div class="spec-row">
+          <span class="spec-label">What we built</span>
+          <p class="spec-text">{project.whatWeBuilt}</p>
+        </div>
+
+        <div class="spec-row">
+          <span class="spec-label">Stack</span>
+          <div class="spec-chips">
+            {project.stack.map((item) => (
+              <span class="stack-chip">{item}</span>
+            ))}
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <div class="modal-footer">
+      <button class="btn btn-secondary" data-close-modal={project.id}>
+        Close
+      </button>
+      <a href="/contact" class="btn btn-primary">
+        <span>Discuss a similar project</span>
+        <svg class="arrow-icon" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+          <line x1="5" y1="12" x2="19" y2="12"></line>
+          <polyline points="12 5 19 12 12 19"></polyline>
+        </svg>
+      </a>
+    </div>
+  </div>
+</div>
+
+<style>
+  .project-modal-backdrop {
+    position: fixed;
+    inset: 0;
+    z-index: 1000;
+    background: rgba(10, 16, 26, 0.85);
+    backdrop-filter: blur(12px);
+    -webkit-backdrop-filter: blur(12px);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    padding: 1.5rem;
+    opacity: 0;
+    pointer-events: none;
+    transition: opacity 0.25s cubic-bezier(0.16, 1, 0.3, 1);
+  }
+
+  .project-modal-backdrop.is-open {
+    opacity: 1;
+    pointer-events: auto;
+  }
+
+  .modal-dialog-content {
+    background: #121A28;
+    border: 1px solid rgba(41, 182, 212, 0.25);
+    border-radius: var(--radius-lg);
+    box-shadow: 0 24px 60px rgba(0, 0, 0, 0.6), 0 0 30px rgba(41, 182, 212, 0.15);
+    width: 100%;
+    max-width: 760px;
+    max-height: 90vh;
+    overflow-y: auto;
+    display: flex;
+    flex-direction: column;
+    transform: scale(0.95) translateY(12px);
+    transition: transform 0.25s cubic-bezier(0.16, 1, 0.3, 1);
+  }
+
+  .project-modal-backdrop.is-open .modal-dialog-content {
+    transform: scale(1) translateY(0);
+  }
+
+  .modal-header {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    padding: 1.5rem 1.75rem 1rem;
+    border-bottom: 1px solid rgba(41, 182, 212, 0.1);
+  }
+
+  .modal-close-btn {
+    background: rgba(255, 255, 255, 0.06);
+    border: 1px solid rgba(255, 255, 255, 0.1);
+    color: #CBD5E1;
+    width: 36px;
+    height: 36px;
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    cursor: pointer;
+    transition: all 0.2s ease;
+  }
+
+  .modal-close-btn:hover {
+    background: rgba(41, 182, 212, 0.2);
+    color: #FFFFFF;
+    border-color: var(--color-cyan);
+  }
+
+  .modal-body {
+    padding: 1.75rem;
+    display: flex;
+    flex-direction: column;
+    gap: 1.5rem;
+  }
+
+  .modal-title {
+    font-size: 1.65rem;
+    font-weight: 700;
+    color: #FFFFFF;
+  }
+
+  .modal-schematic-wrap {
+    margin-block: 0.5rem;
+  }
+
+  .modal-grid-spec {
+    display: flex;
+    flex-direction: column;
+    gap: 1.25rem;
+    background: rgba(23, 32, 49, 0.5);
+    border: 1px solid rgba(41, 182, 212, 0.1);
+    border-radius: var(--radius-md);
+    padding: 1.5rem;
+  }
+
+  .spec-row {
+    display: grid;
+    grid-template-columns: 140px 1fr;
+    gap: 1rem;
+    align-items: baseline;
+  }
+
+  @media (max-width: 600px) {
+    .spec-row {
+      grid-template-columns: 1fr;
+      gap: 0.35rem;
+    }
+  }
+
+  .spec-label {
+    font-family: var(--font-mono);
+    font-size: 0.8rem;
+    font-weight: 600;
+    text-transform: uppercase;
+    letter-spacing: 0.05em;
+    color: var(--color-cyan);
+  }
+
+  .spec-value {
+    font-size: 0.95rem;
+    font-weight: 500;
+    color: #FFFFFF;
+  }
+
+  .spec-note {
+    display: block;
+    font-size: 0.8rem;
+    color: var(--text-muted-light);
+    margin-top: 0.25rem;
+  }
+
+  .spec-text {
+    font-size: 0.95rem;
+    color: #CBD5E1;
+    line-height: 1.6;
+    margin: 0;
+  }
+
+  .spec-chips {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 0.5rem;
+  }
+
+  .modal-footer {
+    display: flex;
+    align-items: center;
+    justify-content: flex-end;
+    gap: 1rem;
+    padding: 1.25rem 1.75rem;
+    border-top: 1px solid rgba(41, 182, 212, 0.1);
+    background: rgba(18, 26, 40, 0.6);
+  }
+
+  @media (max-width: 640px) {
+    .project-modal-backdrop {
+      padding: 0.75rem;
+    }
+
+    .modal-dialog-content {
+      border-radius: var(--radius-md);
+      max-height: 94vh;
+    }
+
+    .modal-header {
+      padding: 1rem 1.25rem;
+    }
+
+    .modal-body {
+      padding: 1.25rem;
+      gap: 1.1rem;
+    }
+
+    .modal-title {
+      font-size: 1.3rem;
+    }
+
+    .modal-footer {
+      flex-direction: column-reverse;
+      gap: 0.65rem;
+      padding: 1rem 1.25rem;
+    }
+
+    .modal-footer .btn {
+      width: 100%;
+    }
+  }
+</style>

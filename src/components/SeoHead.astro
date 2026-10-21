@@ -1,0 +1,71 @@
+---
+export interface Props {
+  title?: string;
+  description?: string;
+  canonicalPath?: string;
+}
+
+const {
+  title = "BlueDuneSolution | Data, AI and Software for Oman's Growing Businesses",
+  description = "We turn scattered data and manual processes into reliable data platforms, automation and software your team can trust. Data engineering at the core.",
+  canonicalPath = "",
+} = Astro.props;
+
+const siteUrl = "https://bluedune.tech";
+const canonicalUrl = new URL(canonicalPath, siteUrl).href;
+const ogImageUrl = `${siteUrl}/og-image.png`;
+
+// Organization Schema (strictly name, url, logo, email only per prompt)
+const schemaOrg = {
+  "@context": "https://schema.org",
+  "@type": "Organization",
+  "name": "BlueDuneSolution",
+  "url": siteUrl,
+  "logo": `${siteUrl}/brand/logo-horizontal-on-dark.png`,
+  "email": "info@bluedune.tech"
+};
+---
+
+<!-- Global Metadata -->
+<meta charset="utf-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<title>{title}</title>
+<meta name="title" content={title} />
+<meta name="description" content={description} />
+<link rel="canonical" href={canonicalUrl} />
+<meta name="theme-color" content="#172031" />
+
+<!-- Favicons & Icons -->
+<link rel="icon" type="image/x-icon" href="/brand/favicon.ico" />
+<link rel="icon" type="image/png" sizes="32x32" href="/brand/favicon-32.png" />
+<link rel="icon" type="image/png" sizes="192x192" href="/brand/favicon-192.png" />
+<link rel="apple-touch-icon" sizes="192x192" href="/brand/favicon-192.png" />
+<link rel="manifest" href="/site.webmanifest" />
+
+<!-- Open Graph / Facebook -->
+<meta property="og:type" content="website" />
+<meta property="og:url" content={canonicalUrl} />
+<meta property="og:title" content={title} />
+<meta property="og:description" content={description} />
+<meta property="og:image" content={ogImageUrl} />
+<meta property="og:image:width" content="1200" />
+<meta property="og:image:height" content="630" />
+<meta property="og:site_name" content="BlueDuneSolution" />
+
+<!-- Twitter Cards -->
+<meta name="twitter:card" content="summary_large_image" />
+<meta name="twitter:url" content={canonicalUrl} />
+<meta name="twitter:title" content={title} />
+<meta name="twitter:description" content={description} />
+<meta name="twitter:image" content={ogImageUrl} />
+
+<!-- Google Fonts (Sora & Inter) -->
+<link rel="preconnect" href="https://fonts.googleapis.com" />
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+<link
+  href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600&family=Sora:wght@500;600;700&display=swap"
+  rel="stylesheet"
+/>
+
+<!-- Structured Data -->
+<script type="application/ld+json" set:html={JSON.stringify(schemaOrg)} />

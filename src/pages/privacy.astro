@@ -1,0 +1,173 @@
+---
+import BaseLayout from '../layouts/BaseLayout.astro';
+
+// TODO: have this privacy notice reviewed by legal counsel before public launch
+const lastUpdated = "February 2026";
+---
+
+<BaseLayout
+  title="Privacy Notice | BlueDuneSolution"
+  description="Plain-language privacy notice explaining what data we collect through our project brief form, how it is handled, and how to request deletion."
+>
+  <section class="section section-dark privacy-hero">
+    <div class="container container-narrow">
+      <div class="privacy-header reveal-on-scroll">
+        <span class="section-tag">Legal &amp; Data Handling</span>
+        <h1 class="page-title">Privacy Notice</h1>
+        <p class="page-meta">Last updated: {lastUpdated}</p>
+      </div>
+
+      <div class="privacy-body reveal-on-scroll">
+        <div class="privacy-card">
+          <h2>1. Overview</h2>
+          <p>
+            BlueDuneSolution ("we", "us") values your privacy and handles your information transparently and responsibly. This notice explains what information we collect when you visit our website (bluedune.tech) or submit a project inquiry, how we use it, and your rights regarding your data.
+          </p>
+
+          <h2>2. What Information We Collect</h2>
+          <p>
+            When you submit a project brief through our contact form, we collect the following details that you voluntarily provide:
+          </p>
+          <ul>
+            <li><strong>Your Name</strong>: To identify and address you in correspondence.</li>
+            <li><strong>Work Email Address</strong>: To reply to your inquiry.</li>
+            <li><strong>Company / Organization</strong>: To understand the commercial context of the project.</li>
+            <li><strong>Service Requirement &amp; Timeline</strong>: To evaluate technical fit and capacity.</li>
+            <li><strong>Project Message</strong>: Your description of the problem, operational constraints, or requirements.</li>
+          </ul>
+          <p>
+            We do not collect cookies for third-party advertising, nor do we run behavioral tracking scripts.
+          </p>
+
+          <h2>3. How We Use Your Information</h2>
+          <p>
+            Information submitted through our project brief form is used exclusively for:
+          </p>
+          <ul>
+            <li>Reviewing your project brief and assessing feasibility.</li>
+            <li>Replying to your technical and commercial questions.</li>
+            <li>Preparing project scopes, technical proposals, or non-disclosure agreements if requested.</li>
+          </ul>
+          <p>
+            We never sell, rent, or trade your contact information to third parties, and we do not use your information for unsolicited promotional newsletters.
+          </p>
+
+          <h2>4. Delivery &amp; Third-Party Processing</h2>
+          <p>
+            Contact form submissions are delivered via <strong>Web3Forms</strong> (an external form routing service) and transmitted directly to our secure engineering email inbox. Web3Forms acts solely as a data processor to relay form content.
+          </p>
+
+          <h2>5. Data Retention</h2>
+          <p>
+            We retain inquiry records only for as long as necessary to communicate regarding the project brief or to maintain standard business correspondence. Inquiries that do not proceed into an active project are purged on a periodic basis.
+          </p>
+
+          <h2>6. How to Request Data Deletion</h2>
+          <p>
+            You have the right to request a copy of the information you submitted or to request its permanent deletion from our records at any time.
+          </p>
+          <p>
+            To request deletion, simply email our engineering desk at:
+          </p>
+          <div class="privacy-contact-box">
+            <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+              <rect width="20" height="16" x="2" y="4" rx="2"></rect>
+              <path d="m22 7-8.97 5.7a1.94 1.94 0 0 1-2.06 0L2 7"></path>
+            </svg>
+            <a href="mailto:info@bluedune.tech">info@bluedune.tech</a>
+          </div>
+          <p>
+            We will process your request and confirm deletion within two business days.
+          </p>
+        </div>
+      </div>
+    </div>
+  </section>
+</BaseLayout>
+
+<style>
+  .privacy-hero {
+    padding-block: clamp(3.5rem, 7vw, 6rem);
+    background: radial-gradient(circle at 50% 20%, rgba(27, 63, 125, 0.2) 0%, transparent 60%), #172031;
+    min-height: calc(100vh - var(--header-height));
+  }
+
+  .privacy-header {
+    margin-block-end: 2.5rem;
+  }
+
+  .page-title {
+    font-size: clamp(2.35rem, 4.5vw, 3.5rem);
+    font-weight: 700;
+    color: #FFFFFF;
+    margin-block: 1rem 0.5rem;
+  }
+
+  .page-meta {
+    font-family: var(--font-mono);
+    font-size: 0.85rem;
+    color: var(--text-muted-light);
+  }
+
+  .privacy-card {
+    background: #121A28;
+    border: 1px solid rgba(41, 182, 212, 0.18);
+    border-radius: var(--radius-lg);
+    padding: clamp(2rem, 5vw, 3.5rem);
+    box-shadow: var(--shadow-md);
+    display: flex;
+    flex-direction: column;
+    gap: 1.5rem;
+  }
+
+  .privacy-card h2 {
+    font-size: 1.45rem;
+    font-weight: 600;
+    color: #FFFFFF;
+    margin-top: 1rem;
+    padding-bottom: 0.5rem;
+    border-bottom: 1px solid rgba(255, 255, 255, 0.08);
+  }
+
+  .privacy-card h2:first-of-type {
+    margin-top: 0;
+  }
+
+  .privacy-card p {
+    font-size: 1rem;
+    color: #CBD5E1;
+    line-height: 1.7;
+    margin: 0;
+  }
+
+  .privacy-card ul {
+    list-style: disc;
+    padding-inline-start: 1.5rem;
+    display: flex;
+    flex-direction: column;
+    gap: 0.65rem;
+    color: #CBD5E1;
+  }
+
+  .privacy-card li strong {
+    color: #FFFFFF;
+  }
+
+  .privacy-contact-box {
+    display: inline-flex;
+    align-items: center;
+    gap: 0.65rem;
+    background: rgba(41, 182, 212, 0.1);
+    border: 1px solid rgba(41, 182, 212, 0.25);
+    padding: 0.75rem 1.25rem;
+    border-radius: var(--radius-sm);
+    width: fit-content;
+  }
+
+  .privacy-contact-box a {
+    font-family: var(--font-mono);
+    font-size: 1rem;
+    font-weight: 600;
+    color: var(--color-cyan);
+  }
+</style>

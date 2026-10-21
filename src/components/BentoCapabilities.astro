@@ -1,0 +1,320 @@
+---
+// BentoCapabilities: Six capability cards in a bento grid layout with 3D tilt, glow, and lift
+const capabilities = [
+  {
+    id: "data-platforms",
+    title: "Data platforms and pipelines",
+    description: "Reliable ingestion, transformation, warehouses and cloud data infrastructure.",
+    badge: "Core Engineering",
+    size: "large",
+    icon: `<path d="M4 14.899A7 7 0 1 1 15.71 8h1.79a4.5 4.5 0 0 1 2.5 8.242"></path><path d="M12 12v9"></path><path d="m8 17 4 4 4-4"></path>`
+  },
+  {
+    id: "ai-systems",
+    title: "AI knowledge systems",
+    description: "Search and question answering over large document collections (RAG), chatbots and assistants.",
+    badge: "Intelligent Systems",
+    size: "medium",
+    icon: `<path d="M12 2a8 8 0 0 0-8 8c0 3.36 2.07 6.24 5 7.42V20a2 2 0 0 0 2 2h2a2 2 0 0 0 2-2v-2.58c2.93-1.18 5-4.06 5-7.42a8 8 0 0 0-8-8z"></path><line x1="12" y1="9" x2="12" y2="13"></line><line x1="9" y1="12" x2="15" y2="12"></line>`
+  },
+  {
+    id: "automation-agents",
+    title: "Automation and AI agents",
+    description: "Business workflows across email, messaging, spreadsheets and internal tools.",
+    badge: "Workflow Efficiency",
+    size: "medium",
+    icon: `<rect width="18" height="18" x="3" y="3" rx="2"></rect><path d="m9 8 6 4-6 4Z"></path>`
+  },
+  {
+    id: "analytics-forecasting",
+    title: "Analytics and forecasting",
+    description: "Dashboards, recurring reports and forecasting pipelines.",
+    badge: "Business Intelligence",
+    size: "large",
+    icon: `<line x1="18" y1="20" x2="18" y2="10"></line><line x1="12" y1="20" x2="12" y2="4"></line><line x1="6" y1="20" x2="6" y2="14"></line>`
+  },
+  {
+    id: "custom-web-api",
+    title: "Custom web and API products",
+    description: "Business applications, portals, dashboards and integrations.",
+    badge: "Full-Stack Software",
+    size: "medium",
+    icon: `<circle cx="12" cy="12" r="10"></circle><line x1="2" y1="12" x2="22" y2="12"></line><path d="M12 2a15.3 15.3 0 0 1 4 10 15.3 15.3 0 0 1-4 10 15.3 15.3 0 0 1-4-10 15.3 15.3 0 0 1 4-10z"></path>`
+  },
+  {
+    id: "mobile-cv",
+    title: "Mobile and computer vision",
+    description: "Flutter apps and on-device vision features.",
+    badge: "Edge & Mobile",
+    size: "medium",
+    icon: `<rect width="14" height="20" x="5" y="2" rx="2" ry="2"></rect><path d="M12 18h.01"></path>`
+  }
+];
+---
+
+<section id="capabilities" class="section section-dark bento-section" aria-labelledby="capabilities-title">
+  <div class="container">
+    <div class="section-header reveal-on-scroll">
+      <span class="section-tag">
+        <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+          <polygon points="12 2 2 7 12 12 22 7 12 2"></polygon>
+          <polyline points="2 17 12 22 22 17"></polyline>
+          <polyline points="2 12 12 17 22 12"></polyline>
+        </svg>
+        Capabilities
+      </span>
+      <h2 id="capabilities-title" class="section-title">What we do</h2>
+      <p class="section-subtitle">
+        Engineered foundations and software designed for real operational performance.
+      </p>
+    </div>
+
+    <div class="bento-grid">
+      {capabilities.map((cap, index) => (
+        <article
+          class={`bento-card bento-${cap.size} reveal-on-scroll`}
+          data-bento-card
+          style={`transition-delay: ${index * 80}ms;`}
+        >
+          <div class="card-glow" aria-hidden="true"></div>
+          <div class="card-content">
+            <div class="card-top">
+              <div class="icon-box" aria-hidden="true">
+                <svg
+                  width="24"
+                  height="24"
+                  viewBox="0 0 24 24"
+                  fill="none"
+                  stroke="currentColor"
+                  stroke-width="1.8"
+                  stroke-linecap="round"
+                  stroke-linejoin="round"
+                  set:html={cap.icon}
+                />
+              </div>
+              <span class="card-badge">{cap.badge}</span>
+            </div>
+
+            <div class="card-body">
+              <h3 class="card-title">{cap.title}</h3>
+              <p class="card-desc">{cap.description}</p>
+            </div>
+
+            <div class="card-footer">
+              <a href="/services" class="card-link" aria-label={`Learn more about ${cap.title}`}>
+                <span>Explore service</span>
+                <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+                  <line x1="5" y1="12" x2="19" y2="12"></line>
+                  <polyline points="12 5 19 12 12 19"></polyline>
+                </svg>
+              </a>
+            </div>
+          </div>
+        </article>
+      ))}
+    </div>
+  </div>
+</section>
+
+<style>
+  .bento-section {
+    position: relative;
+    background: radial-gradient(circle at 80% 20%, rgba(27, 63, 125, 0.25) 0%, transparent 60%), #172031;
+  }
+
+  .section-header {
+    text-align: center;
+    max-width: 680px;
+    margin-inline: auto;
+    margin-block-end: clamp(2.5rem, 5vw, 4rem);
+  }
+
+  .bento-grid {
+    display: grid;
+    grid-template-columns: 1fr;
+    gap: 1.5rem;
+  }
+
+  @media (min-width: 768px) {
+    .bento-grid {
+      grid-template-columns: repeat(2, 1fr);
+    }
+  }
+
+  @media (min-width: 1024px) {
+    .bento-grid {
+      grid-template-columns: repeat(3, 1fr);
+    }
+
+    .bento-large {
+      grid-column: span 2;
+    }
+
+    .bento-medium {
+      grid-column: span 1;
+    }
+  }
+
+  .bento-card {
+    position: relative;
+    background: rgba(23, 32, 49, 0.75);
+    border: 1px solid rgba(41, 182, 212, 0.16);
+    border-radius: var(--radius-lg);
+    padding: 2rem;
+    backdrop-filter: blur(12px);
+    overflow: hidden;
+    transition: transform 0.35s cubic-bezier(0.16, 1, 0.3, 1),
+                border-color 0.35s ease,
+                box-shadow 0.35s ease;
+    will-change: transform;
+    display: flex;
+    flex-direction: column;
+  }
+
+  .bento-card:hover {
+    transform: translateY(-5px);
+    border-color: rgba(41, 182, 212, 0.55);
+    box-shadow: 0 16px 36px rgba(10, 16, 26, 0.45), 0 0 25px rgba(41, 182, 212, 0.2);
+  }
+
+  .card-glow {
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    height: 120px;
+    background: radial-gradient(circle at 50% 0%, rgba(41, 182, 212, 0.18) 0%, transparent 70%);
+    pointer-events: none;
+    opacity: 0;
+    transition: opacity 0.35s ease;
+  }
+
+  .bento-card:hover .card-glow {
+    opacity: 1;
+  }
+
+  .card-content {
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+    height: 100%;
+    gap: 1.5rem;
+    position: relative;
+    z-index: 2;
+  }
+
+  .card-top {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+  }
+
+  .icon-box {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    width: 48px;
+    height: 48px;
+    border-radius: var(--radius-md);
+    background: rgba(41, 182, 212, 0.12);
+    border: 1px solid rgba(41, 182, 212, 0.25);
+    color: var(--color-cyan);
+    transition: transform 0.3s ease, background 0.3s ease;
+  }
+
+  .bento-card:hover .icon-box {
+    transform: scale(1.08);
+    background: rgba(41, 182, 212, 0.2);
+    color: #FFFFFF;
+  }
+
+  .card-badge {
+    font-family: var(--font-mono);
+    font-size: 0.75rem;
+    font-weight: 500;
+    color: #94A3B8;
+    background: rgba(27, 63, 125, 0.3);
+    padding: 0.3rem 0.65rem;
+    border-radius: var(--radius-full);
+    border: 1px solid rgba(41, 182, 212, 0.1);
+  }
+
+  .card-body {
+    display: flex;
+    flex-direction: column;
+    gap: 0.6rem;
+  }
+
+  .card-title {
+    font-size: 1.35rem;
+    font-weight: 600;
+    color: #FFFFFF;
+    letter-spacing: -0.01em;
+  }
+
+  .card-desc {
+    color: #94A3B8;
+    font-size: 0.95rem;
+    line-height: 1.6;
+    margin: 0;
+  }
+
+  .card-footer {
+    padding-top: 0.75rem;
+    border-top: 1px solid rgba(255, 255, 255, 0.06);
+  }
+
+  .card-link {
+    display: inline-flex;
+    align-items: center;
+    gap: 0.5rem;
+    font-size: 0.875rem;
+    font-weight: 600;
+    color: var(--color-cyan);
+    transition: gap 0.2s ease, color 0.2s ease;
+  }
+
+  .card-link:hover {
+    color: #FFFFFF;
+    gap: 0.75rem;
+  }
+
+  @media (prefers-reduced-motion: reduce) {
+    .bento-card:hover {
+      transform: none;
+    }
+  }
+</style>
+
+<script>
+  // Subtle 3D tilt on mouse hover for desktop devices
+  function initBentoTilt() {
+    if (window.matchMedia('(prefers-reduced-motion: reduce)').matches) return;
+    if (!window.matchMedia('(hover: hover) and (pointer: fine)').matches) return;
+
+    const cards = document.querySelectorAll<HTMLElement>('[data-bento-card]');
+    cards.forEach((card) => {
+      card.addEventListener('mousemove', (e) => {
+        const rect = card.getBoundingClientRect();
+        const x = e.clientX - rect.left;
+        const y = e.clientY - rect.top;
+        const centerX = rect.width / 2;
+        const centerY = rect.height / 2;
+        const rotateX = ((y - centerY) / centerY) * -4;
+        const rotateY = ((x - centerX) / centerX) * 4;
+
+        card.style.transform = `perspective(1000px) rotateX(${rotateX}deg) rotateY(${rotateY}deg) translateY(-5px)`;
+      });
+
+      card.addEventListener('mouseleave', () => {
+        card.style.transform = '';
+      });
+    });
+  }
+
+  if (document.readyState === 'loading') {
+    document.addEventListener('DOMContentLoaded', initBentoTilt);
+  } else {
+    initBentoTilt();
+  }
+</script>

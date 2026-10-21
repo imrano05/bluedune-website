@@ -1,0 +1,258 @@
+---
+export interface Props {
+  projectType: "transport" | "arabic-legal" | "uk-construction";
+}
+
+const { projectType } = Astro.props;
+---
+
+<div class="schematic-container" aria-label="Simplified architecture diagram">
+  <div class="schematic-badge">Simplified architecture</div>
+
+  {projectType === "transport" && (
+    <svg class="schematic-svg" viewBox="0 0 600 240" fill="none" xmlns="http://www.w3.org/2000/svg" role="img" aria-label="Transport Management System Architecture Diagram">
+      <defs>
+        <linearGradient id="gradT1" x1="0" y1="0" x2="1" y2="0">
+          <stop offset="0%" stop-color="#1B3F7D" stop-opacity="0.8" />
+          <stop offset="100%" stop-color="#1763A1" stop-opacity="0.8" />
+        </linearGradient>
+        <filter id="glowT" x="-10%" y="-10%" width="120%" height="120%">
+          <feDropShadow dx="0" dy="2" stdDeviation="4" flood-color="#29B6D4" flood-opacity="0.25" />
+        </filter>
+      </defs>
+
+      <!-- Grid pattern -->
+      <path d="M 0 60 L 600 60 M 0 120 L 600 120 M 0 180 L 600 180" stroke="#29B6D4" stroke-opacity="0.08" stroke-dasharray="3 3" />
+      <path d="M 150 0 L 150 240 M 300 0 L 300 240 M 450 0 L 450 240" stroke="#29B6D4" stroke-opacity="0.08" stroke-dasharray="3 3" />
+
+      <!-- Node 1: Client Application (React) -->
+      <g transform="translate(30, 45)">
+        <rect width="130" height="150" rx="8" fill="#121A28" stroke="#29B6D4" stroke-width="1.5" filter="url(#glowT)" />
+        <rect x="0" y="0" width="130" height="28" rx="8" fill="#1B3F7D" fill-opacity="0.5" />
+        <text x="65" y="19" text-anchor="middle" font-family="'Sora', sans-serif" font-size="11" font-weight="600" fill="#29B6D4">FRONTEND</text>
+        <text x="65" y="55" text-anchor="middle" font-family="'Inter', sans-serif" font-size="12" font-weight="600" fill="#FFFFFF">React Application</text>
+        <text x="65" y="75" text-anchor="middle" font-family="'Inter', sans-serif" font-size="9" fill="#94A3B8">&bull; Trip Operations</text>
+        <text x="65" y="92" text-anchor="middle" font-family="'Inter', sans-serif" font-size="9" fill="#94A3B8">&bull; Financial Records</text>
+        <text x="65" y="109" text-anchor="middle" font-family="'Inter', sans-serif" font-size="9" fill="#94A3B8">&bull; Role-Based UI</text>
+        <rect x="25" y="125" width="80" height="16" rx="4" fill="#172031" stroke="#29B6D4" stroke-opacity="0.3" />
+        <text x="65" y="136" text-anchor="middle" font-family="monospace" font-size="8" fill="#29B6D4">Auth Session</text>
+      </g>
+
+      <!-- Connector 1 -->
+      <g>
+        <path d="M 160 120 L 220 120" stroke="#29B6D4" stroke-width="2" stroke-dasharray="4 4" />
+        <circle cx="160" cy="120" r="3" fill="#29B6D4" />
+        <circle cx="220" cy="120" r="3" fill="#29B6D4" />
+        <polygon points="215,116 223,120 215,124" fill="#29B6D4" />
+        <text x="190" y="112" text-anchor="middle" font-family="monospace" font-size="8" fill="#94A3B8">REST / JSON</text>
+      </g>
+
+      <!-- Node 2: Backend API (FastAPI) -->
+      <g transform="translate(225, 45)">
+        <rect width="150" height="150" rx="8" fill="#121A28" stroke="#1763A1" stroke-width="1.5" />
+        <rect x="0" y="0" width="150" height="28" rx="8" fill="#1763A1" fill-opacity="0.4" />
+        <text x="75" y="19" text-anchor="middle" font-family="'Sora', sans-serif" font-size="11" font-weight="600" fill="#FFFFFF">API SERVICE</text>
+        <text x="75" y="55" text-anchor="middle" font-family="'Inter', sans-serif" font-size="12" font-weight="600" fill="#FFFFFF">FastAPI Backend</text>
+        <text x="75" y="75" text-anchor="middle" font-family="'Inter', sans-serif" font-size="9" fill="#94A3B8">&bull; Auth &amp; Permissions</text>
+        <text x="75" y="92" text-anchor="middle" font-family="'Inter', sans-serif" font-size="9" fill="#94A3B8">&bull; Trip Lifecycle Router</text>
+        <text x="75" y="109" text-anchor="middle" font-family="'Inter', sans-serif" font-size="9" fill="#94A3B8">&bull; Ledger Calculation</text>
+        <rect x="25" y="125" width="100" height="16" rx="4" fill="#172031" stroke="#1763A1" stroke-opacity="0.4" />
+        <text x="75" y="136" text-anchor="middle" font-family="monospace" font-size="8" fill="#B4C6E7">Data Validation</text>
+      </g>
+
+      <!-- Connector 2 -->
+      <g>
+        <path d="M 375 120 L 435 120" stroke="#29B6D4" stroke-width="2" stroke-dasharray="4 4" />
+        <circle cx="375" cy="120" r="3" fill="#29B6D4" />
+        <circle cx="435" cy="120" r="3" fill="#29B6D4" />
+        <polygon points="430,116 438,120 430,124" fill="#29B6D4" />
+        <text x="405" y="112" text-anchor="middle" font-family="monospace" font-size="8" fill="#94A3B8">SQL Driver</text>
+      </g>
+
+      <!-- Node 3: Storage (PostgreSQL) -->
+      <g transform="translate(440, 45)">
+        <rect width="130" height="150" rx="8" fill="#121A28" stroke="#29B6D4" stroke-width="1.5" filter="url(#glowT)" />
+        <rect x="0" y="0" width="130" height="28" rx="8" fill="#1B3F7D" fill-opacity="0.5" />
+        <text x="65" y="19" text-anchor="middle" font-family="'Sora', sans-serif" font-size="11" font-weight="600" fill="#29B6D4">DATABASE</text>
+        <text x="65" y="55" text-anchor="middle" font-family="'Inter', sans-serif" font-size="12" font-weight="600" fill="#FFFFFF">PostgreSQL</text>
+        <text x="65" y="75" text-anchor="middle" font-family="'Inter', sans-serif" font-size="9" fill="#94A3B8">&bull; Trips Table</text>
+        <text x="65" y="92" text-anchor="middle" font-family="'Inter', sans-serif" font-size="9" fill="#94A3B8">&bull; Financial Ledger</text>
+        <text x="65" y="109" text-anchor="middle" font-family="'Inter', sans-serif" font-size="9" fill="#94A3B8">&bull; Audit Logs</text>
+        <rect x="25" y="125" width="80" height="16" rx="4" fill="#172031" stroke="#29B6D4" stroke-opacity="0.3" />
+        <text x="65" y="136" text-anchor="middle" font-family="monospace" font-size="8" fill="#29B6D4">ACID Storage</text>
+      </g>
+    </svg>
+  )}
+
+  {projectType === "arabic-legal" && (
+    <svg class="schematic-svg" viewBox="0 0 600 240" fill="none" xmlns="http://www.w3.org/2000/svg" role="img" aria-label="Arabic Legal Search Architecture Diagram">
+      <defs>
+        <filter id="glowL" x="-10%" y="-10%" width="120%" height="120%">
+          <feDropShadow dx="0" dy="2" stdDeviation="4" flood-color="#29B6D4" flood-opacity="0.25" />
+        </filter>
+      </defs>
+
+      <!-- Background guides -->
+      <path d="M 0 60 L 600 60 M 0 120 L 600 120 M 0 180 L 600 180" stroke="#29B6D4" stroke-opacity="0.08" stroke-dasharray="3 3" />
+
+      <!-- Step 1: Arabic Document Corpus -->
+      <g transform="translate(25, 45)">
+        <rect width="125" height="150" rx="8" fill="#121A28" stroke="#1763A1" stroke-width="1.5" />
+        <rect x="0" y="0" width="125" height="28" rx="8" fill="#1763A1" fill-opacity="0.4" />
+        <text x="62" y="19" text-anchor="middle" font-family="'Sora', sans-serif" font-size="10" font-weight="600" fill="#FFFFFF">LEGAL CORPUS</text>
+        <text x="62" y="55" text-anchor="middle" font-family="'Inter', sans-serif" font-size="11" font-weight="600" fill="#FFFFFF">Arabic Docs</text>
+        <text x="62" y="75" text-anchor="middle" font-family="'Inter', sans-serif" font-size="9" fill="#94A3B8">&bull; Legislation</text>
+        <text x="62" y="92" text-anchor="middle" font-family="'Inter', sans-serif" font-size="9" fill="#94A3B8">&bull; Judicial Rulings</text>
+        <text x="62" y="109" text-anchor="middle" font-family="'Inter', sans-serif" font-size="9" fill="#94A3B8">&bull; Procedural Guides</text>
+        <rect x="18" y="125" width="90" height="16" rx="4" fill="#172031" stroke="#1763A1" stroke-opacity="0.4" />
+        <text x="62" y="136" text-anchor="middle" font-family="monospace" font-size="8" fill="#B4C6E7">Chunk &amp; Tokenize</text>
+      </g>
+
+      <!-- Flow 1 -->
+      <g>
+        <path d="M 150 120 L 205 120" stroke="#29B6D4" stroke-width="2" stroke-dasharray="4 4" />
+        <polygon points="200,116 208,120 200,124" fill="#29B6D4" />
+      </g>
+
+      <!-- Step 2: Hybrid Retrieval & MongoDB -->
+      <g transform="translate(210, 40)">
+        <rect width="180" height="160" rx="8" fill="#121A28" stroke="#29B6D4" stroke-width="1.5" filter="url(#glowL)" />
+        <rect x="0" y="0" width="180" height="28" rx="8" fill="#1B3F7D" fill-opacity="0.6" />
+        <text x="90" y="19" text-anchor="middle" font-family="'Sora', sans-serif" font-size="11" font-weight="600" fill="#29B6D4">HYBRID RETRIEVAL</text>
+        
+        <rect x="15" y="42" width="150" height="30" rx="5" fill="#172031" stroke="#29B6D4" stroke-opacity="0.3" />
+        <text x="90" y="61" text-anchor="middle" font-family="'Inter', sans-serif" font-size="10" fill="#FFFFFF">Keyword / Lexical Match</text>
+        
+        <rect x="15" y="80" width="150" height="30" rx="5" fill="#172031" stroke="#29B6D4" stroke-opacity="0.3" />
+        <text x="90" y="99" text-anchor="middle" font-family="'Inter', sans-serif" font-size="10" fill="#FFFFFF">Semantic Embeddings</text>
+
+        <rect x="25" y="122" width="130" height="22" rx="4" fill="#1B3F7D" fill-opacity="0.3" stroke="#29B6D4" stroke-opacity="0.5" />
+        <text x="90" y="137" text-anchor="middle" font-family="monospace" font-size="9" fill="#29B6D4">MongoDB Storage (Docker)</text>
+      </g>
+
+      <!-- Flow 2 -->
+      <g>
+        <path d="M 390 120 L 445 120" stroke="#29B6D4" stroke-width="2" stroke-dasharray="4 4" />
+        <polygon points="440,116 448,120 440,124" fill="#29B6D4" />
+      </g>
+
+      <!-- Step 3: LangChain & FastAPI Synthesis -->
+      <g transform="translate(450, 45)">
+        <rect width="125" height="150" rx="8" fill="#121A28" stroke="#1763A1" stroke-width="1.5" />
+        <rect x="0" y="0" width="125" height="28" rx="8" fill="#1763A1" fill-opacity="0.4" />
+        <text x="62" y="19" text-anchor="middle" font-family="'Sora', sans-serif" font-size="10" font-weight="600" fill="#FFFFFF">RAG ENGINE</text>
+        <text x="62" y="55" text-anchor="middle" font-family="'Inter', sans-serif" font-size="11" font-weight="600" fill="#FFFFFF">LangChain + FastAPI</text>
+        <text x="62" y="75" text-anchor="middle" font-family="'Inter', sans-serif" font-size="9" fill="#94A3B8">&bull; Re-ranking Stage</text>
+        <text x="62" y="92" text-anchor="middle" font-family="'Inter', sans-serif" font-size="9" fill="#94A3B8">&bull; Context Synthesis</text>
+        <text x="62" y="109" text-anchor="middle" font-family="'Inter', sans-serif" font-size="9" fill="#94A3B8">&bull; Source Citation</text>
+        <rect x="15" y="125" width="95" height="16" rx="4" fill="#172031" stroke="#1763A1" stroke-opacity="0.4" />
+        <text x="62" y="136" text-anchor="middle" font-family="monospace" font-size="8" fill="#B4C6E7">Verified Answer</text>
+      </g>
+    </svg>
+  )}
+
+  {projectType === "uk-construction" && (
+    <svg class="schematic-svg" viewBox="0 0 600 240" fill="none" xmlns="http://www.w3.org/2000/svg" role="img" aria-label="UK Construction Assistant Architecture Diagram">
+      <defs>
+        <filter id="glowC" x="-10%" y="-10%" width="120%" height="120%">
+          <feDropShadow dx="0" dy="2" stdDeviation="4" flood-color="#29B6D4" flood-opacity="0.25" />
+        </filter>
+      </defs>
+
+      <!-- Background guides -->
+      <path d="M 0 60 L 600 60 M 0 120 L 600 120 M 0 180 L 600 180" stroke="#29B6D4" stroke-opacity="0.08" stroke-dasharray="3 3" />
+
+      <!-- Node 1: Project Teams Interface -->
+      <g transform="translate(30, 45)">
+        <rect width="130" height="150" rx="8" fill="#121A28" stroke="#1763A1" stroke-width="1.5" />
+        <rect x="0" y="0" width="130" height="28" rx="8" fill="#1763A1" fill-opacity="0.4" />
+        <text x="65" y="19" text-anchor="middle" font-family="'Sora', sans-serif" font-size="10" font-weight="600" fill="#FFFFFF">CLIENT TEAMS</text>
+        <text x="65" y="55" text-anchor="middle" font-family="'Inter', sans-serif" font-size="12" font-weight="600" fill="#FFFFFF">Field Teams</text>
+        <text x="65" y="75" text-anchor="middle" font-family="'Inter', sans-serif" font-size="9" fill="#94A3B8">&bull; Active Site Queries</text>
+        <text x="65" y="92" text-anchor="middle" font-family="'Inter', sans-serif" font-size="9" fill="#94A3B8">&bull; Spec Verification</text>
+        <text x="65" y="109" text-anchor="middle" font-family="'Inter', sans-serif" font-size="9" fill="#94A3B8">&bull; Progress Feeds</text>
+        <rect x="20" y="125" width="90" height="16" rx="4" fill="#172031" stroke="#1763A1" stroke-opacity="0.4" />
+        <text x="65" y="136" text-anchor="middle" font-family="monospace" font-size="8" fill="#B4C6E7">Conversational UI</text>
+      </g>
+
+      <!-- Bidirectional WebSocket Channel -->
+      <g>
+        <path d="M 160 110 L 220 110" stroke="#29B6D4" stroke-width="1.8" />
+        <polygon points="215,107 223,110 215,113" fill="#29B6D4" />
+        <path d="M 220 130 L 160 130" stroke="#29B6D4" stroke-width="1.8" />
+        <polygon points="168,127 160,130 168,133" fill="#29B6D4" />
+        <text x="190" y="98" text-anchor="middle" font-family="monospace" font-size="8" fill="#29B6D4">WebSockets</text>
+        <text x="190" y="146" text-anchor="middle" font-family="monospace" font-size="7" fill="#94A3B8">Bi-directional</text>
+      </g>
+
+      <!-- Node 2: Real-time Agent Coordinator -->
+      <g transform="translate(225, 40)">
+        <rect width="155" height="160" rx="8" fill="#121A28" stroke="#29B6D4" stroke-width="1.5" filter="url(#glowC)" />
+        <rect x="0" y="0" width="155" height="28" rx="8" fill="#1B3F7D" fill-opacity="0.6" />
+        <text x="77" y="19" text-anchor="middle" font-family="'Sora', sans-serif" font-size="10" font-weight="600" fill="#29B6D4">REAL-TIME AGENT</text>
+        <text x="77" y="55" text-anchor="middle" font-family="'Inter', sans-serif" font-size="11" font-weight="600" fill="#FFFFFF">FastAPI + LangGraph</text>
+        <text x="77" y="75" text-anchor="middle" font-family="'Inter', sans-serif" font-size="9" fill="#94A3B8">&bull; State Machine Loop</text>
+        <text x="77" y="92" text-anchor="middle" font-family="'Inter', sans-serif" font-size="9" fill="#94A3B8">&bull; Context Session Sync</text>
+        <text x="77" y="109" text-anchor="middle" font-family="'Inter', sans-serif" font-size="9" fill="#94A3B8">&bull; Streaming Tokens</text>
+        <rect x="18" y="125" width="120" height="20" rx="4" fill="#172031" stroke="#29B6D4" stroke-opacity="0.4" />
+        <text x="77" y="138" text-anchor="middle" font-family="monospace" font-size="8" fill="#29B6D4">Low-latency Runtime</text>
+      </g>
+
+      <!-- Flow 2 -->
+      <g>
+        <path d="M 380 120 L 440 120" stroke="#29B6D4" stroke-width="2" stroke-dasharray="4 4" />
+        <polygon points="435,116 443,120 435,124" fill="#29B6D4" />
+        <text x="410" y="112" text-anchor="middle" font-family="monospace" font-size="8" fill="#94A3B8">Context</text>
+      </g>
+
+      <!-- Node 3: Project Knowledge & Specs -->
+      <g transform="translate(445, 45)">
+        <rect width="125" height="150" rx="8" fill="#121A28" stroke="#1763A1" stroke-width="1.5" />
+        <rect x="0" y="0" width="125" height="28" rx="8" fill="#1763A1" fill-opacity="0.4" />
+        <text x="62" y="19" text-anchor="middle" font-family="'Sora', sans-serif" font-size="10" font-weight="600" fill="#FFFFFF">KNOWLEDGE BASE</text>
+        <text x="62" y="55" text-anchor="middle" font-family="'Inter', sans-serif" font-size="11" font-weight="600" fill="#FFFFFF">Project Docs</text>
+        <text x="62" y="75" text-anchor="middle" font-family="'Inter', sans-serif" font-size="9" fill="#94A3B8">&bull; Site Engineering Specs</text>
+        <text x="62" y="92" text-anchor="middle" font-family="'Inter', sans-serif" font-size="9" fill="#94A3B8">&bull; Operational Logs</text>
+        <text x="62" y="109" text-anchor="middle" font-family="'Inter', sans-serif" font-size="9" fill="#94A3B8">&bull; Safety Protocols</text>
+        <rect x="18" y="125" width="90" height="16" rx="4" fill="#172031" stroke="#1763A1" stroke-opacity="0.4" />
+        <text x="62" y="136" text-anchor="middle" font-family="monospace" font-size="8" fill="#B4C6E7">Indexed Reference</text>
+      </g>
+    </svg>
+  )}
+</div>
+
+<style>
+  .schematic-container {
+    position: relative;
+    width: 100%;
+    background-color: #0d1420;
+    border: 1px solid rgba(41, 182, 212, 0.18);
+    border-radius: var(--radius-md);
+    padding: 1.5rem 1rem 1rem 1rem;
+    overflow: hidden;
+  }
+
+  .schematic-badge {
+    position: absolute;
+    top: 10px;
+    inset-inline-start: 12px;
+    font-family: var(--font-mono);
+    font-size: 0.7rem;
+    font-weight: 600;
+    text-transform: uppercase;
+    letter-spacing: 0.08em;
+    color: var(--color-cyan);
+    background: rgba(41, 182, 212, 0.1);
+    border: 1px solid rgba(41, 182, 212, 0.25);
+    padding: 2px 8px;
+    border-radius: 4px;
+    z-index: 2;
+  }
+
+  .schematic-svg {
+    width: 100%;
+    height: auto;
+    display: block;
+    max-height: 220px;
+  }
+</style>

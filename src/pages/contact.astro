@@ -1,0 +1,23 @@
+---
+import BaseLayout from '../layouts/BaseLayout.astro';
+import ContactForm from '../components/ContactForm.astro';
+---
+
+<BaseLayout
+  title="Send Us a Project Brief | BlueDuneSolution"
+  description="Discuss your data platform, RAG AI system, workflow automation, or custom software requirements. We reply within one business day."
+>
+  <section class="section section-dark contact-page-section">
+    <div class="container">
+      <ContactForm />
+    </div>
+  </section>
+</BaseLayout>
+
+<style>
+  .contact-page-section {
+    padding-block: clamp(3.5rem, 7vw, 6rem);
+    background: radial-gradient(circle at 80% 20%, rgba(27, 63, 125, 0.25) 0%, transparent 60%), #172031;
+    min-height: calc(100vh - var(--header-height) - 200px);
+  }
+</style>

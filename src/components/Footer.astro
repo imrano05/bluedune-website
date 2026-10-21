@@ -1,0 +1,213 @@
+---
+const currentYear = 2026;
+---
+
+<footer class="site-footer" role="contentinfo">
+  <div class="container footer-inner">
+    <div class="footer-top">
+      <div class="footer-brand">
+        <a href="/" class="footer-logo-link" aria-label="BlueDuneSolution Home">
+          <picture>
+            <source srcset="/brand/logo-horizontal-on-dark.webp" type="image/webp" />
+            <img
+              src="/brand/logo-horizontal-on-dark.png"
+              alt="BlueDuneSolution logo"
+              width="170"
+              height="50"
+              class="footer-logo"
+              loading="lazy"
+              decoding="async"
+            />
+          </picture>
+        </a>
+        <p class="footer-tagline">
+          Data engineering at the core. Complete digital products around it.
+        </p>
+        <p class="footer-region">
+          Serving businesses in Oman and the wider Gulf.
+        </p>
+      </div>
+
+      <div class="footer-nav-col">
+        <h4 class="footer-heading">Navigation</h4>
+        <ul class="footer-links" role="list">
+          <li><a href="/">Home</a></li>
+          <li><a href="/services">Services</a></li>
+          <li><a href="/work">Selected Work</a></li>
+          <li><a href="/process">How We Work</a></li>
+          <li><a href="/contact">Project Brief</a></li>
+        </ul>
+      </div>
+
+      <div class="footer-nav-col">
+        <h4 class="footer-heading">Direct Inquiries</h4>
+        <div class="footer-contact-block">
+          <p class="footer-contact-desc">
+            We reply within one business day.<br />
+            Working week: Sunday to Thursday, GST.
+          </p>
+          <a href="mailto:info@bluedune.tech" class="footer-email-link">
+            <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+              <rect width="20" height="16" x="2" y="4" rx="2"></rect>
+              <path d="m22 7-8.97 5.7a1.94 1.94 0 0 1-2.06 0L2 7"></path>
+            </svg>
+            <span>info@bluedune.tech</span>
+          </a>
+        </div>
+      </div>
+    </div>
+
+    <div class="footer-bottom">
+      <p class="footer-copy">
+        &copy; {currentYear} BlueDuneSolution. All rights reserved.
+      </p>
+      <div class="footer-legal">
+        <a href="/privacy">Privacy Notice</a>
+      </div>
+    </div>
+  </div>
+</footer>
+
+<style>
+  .site-footer {
+    background-color: #121a28;
+    color: var(--text-light);
+    border-top: 1px solid rgba(41, 182, 212, 0.12);
+    padding-block: 4.5rem 2.5rem;
+  }
+
+  .footer-inner {
+    display: flex;
+    flex-direction: column;
+    gap: 3.5rem;
+  }
+
+  .footer-top {
+    display: grid;
+    grid-template-columns: 1fr;
+    gap: 2.5rem;
+  }
+
+  @media (min-width: 768px) {
+    .footer-top {
+      grid-template-columns: 1.6fr 1fr 1.4fr;
+      gap: 3rem;
+    }
+  }
+
+  .footer-brand {
+    display: flex;
+    flex-direction: column;
+    gap: 1rem;
+    max-width: 380px;
+  }
+
+  .footer-logo {
+    display: block;
+    height: 38px;
+    width: auto;
+    object-fit: contain;
+  }
+
+  .footer-tagline {
+    font-size: 0.95rem;
+    color: #B4C6E7;
+    line-height: 1.5;
+  }
+
+  .footer-region {
+    font-size: 0.85rem;
+    color: var(--text-muted-light);
+  }
+
+  .footer-heading {
+    font-size: 0.9rem;
+    font-weight: 600;
+    text-transform: uppercase;
+    letter-spacing: 0.08em;
+    color: #FFFFFF;
+    margin-block-end: 1.25rem;
+    font-family: var(--font-mono);
+  }
+
+  .footer-links {
+    list-style: none;
+    display: flex;
+    flex-direction: column;
+    gap: 0.75rem;
+  }
+
+  .footer-links a {
+    color: #94A3B8;
+    font-size: 0.925rem;
+    transition: color 0.2s ease, transform 0.2s ease;
+    display: inline-block;
+  }
+
+  .footer-links a:hover {
+    color: var(--color-cyan);
+    transform: translateX(3px);
+  }
+
+  .footer-contact-block {
+    display: flex;
+    flex-direction: column;
+    gap: 1rem;
+  }
+
+  .footer-contact-desc {
+    font-size: 0.875rem;
+    color: var(--text-muted-light);
+    line-height: 1.5;
+  }
+
+  .footer-email-link {
+    display: inline-flex;
+    align-items: center;
+    gap: 0.65rem;
+    color: var(--color-cyan);
+    font-family: var(--font-mono);
+    font-size: 0.95rem;
+    font-weight: 500;
+    padding: 0.6rem 0.9rem;
+    background: rgba(41, 182, 212, 0.08);
+    border: 1px solid rgba(41, 182, 212, 0.2);
+    border-radius: var(--radius-sm);
+    width: fit-content;
+    transition: background-color 0.2s ease, border-color 0.2s ease;
+  }
+
+  .footer-email-link:hover {
+    background: rgba(41, 182, 212, 0.16);
+    border-color: var(--color-cyan);
+  }
+
+  .footer-bottom {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: space-between;
+    gap: 1rem;
+    padding-top: 2rem;
+    border-top: 1px solid rgba(255, 255, 255, 0.06);
+    font-size: 0.85rem;
+    color: var(--text-muted-light);
+  }
+
+  @media (min-width: 640px) {
+    .footer-bottom {
+      flex-direction: row;
+    }
+  }
+
+  .footer-legal a {
+    color: var(--text-muted-light);
+    text-decoration: underline;
+    text-underline-offset: 3px;
+    transition: color 0.2s ease;
+  }
+
+  .footer-legal a:hover {
+    color: var(--color-cyan);
+  }
+</style>

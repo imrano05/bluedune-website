@@ -1,0 +1,470 @@
+---
+import BaseLayout from '../layouts/BaseLayout.astro';
+import SchematicSvg from '../components/SchematicSvg.astro';
+import ProjectModal from '../components/ProjectModal.astro';
+
+// TODO: confirm exact spelling of the company name (Mohamed Waseem Investment SPC) and whether the logo may be shown
+const projects = [
+  {
+    id: "transport-management",
+    title: "Transport Management System",
+    client: "Mohamed Waseem Investment SPC",
+    clientNote: "Named with permission",
+    deliveryTag: "Named client" as const,
+    problem: "Managing trip logistics, vehicle assignments, and associated operational expenses across disconnected spreadsheets created administrative delays, manual reconciliation overhead, and potential calculation discrepancies.",
+    whatWeBuilt: "We built a full-stack system to manage trips and their financial data.",
+    stack: ["React", "FastAPI", "PostgreSQL", "REST APIs", "Authentication"],
+    projectType: "transport" as const
+  },
+  {
+    id: "arabic-legal-search",
+    title: "Arabic Legal Document Search",
+    client: "Law firm, Oman",
+    clientNote: "Name withheld under confidentiality",
+    deliveryTag: "Delivered via partner" as const,
+    problem: "Legal teams needed to rapidly cross-reference vast corpora of Omani and Gulf statutes, procedural manuals, and judicial decisions where simple keyword searches failed on nuanced Arabic legal terminology.",
+    whatWeBuilt: "A production Arabic-language retrieval-augmented generation system with hybrid semantic and keyword retrieval across legislation, judicial rulings and procedural guides.",
+    stack: ["LangChain", "Hybrid retrieval", "FastAPI", "MongoDB", "Docker"],
+    projectType: "arabic-legal" as const
+  },
+  {
+    id: "uk-construction-assistant",
+    title: "AI Assistant for UK Construction Teams",
+    client: "Construction project teams, UK",
+    clientNote: "Name withheld under confidentiality",
+    deliveryTag: "Delivered via partner" as const,
+    problem: "On-site engineers and active project personnel required immediate, context-aware answers regarding complex structural specifications, drawings, and site procedural rules without manual document lookup.",
+    whatWeBuilt: "A real-time conversational assistant for active project teams.",
+    stack: ["LangChain or LangGraph", "FastAPI", "WebSockets"],
+    projectType: "uk-construction" as const
+  }
+];
+---
+
+<BaseLayout
+  title="Selected Work & Case Studies | BlueDuneSolution"
+  description="Explore selected data platforms, Arabic legal RAG search, and real-time assistants built for enterprise clients and delivery partners."
+>
+  <section class="section section-dark work-hero">
+    <div class="container">
+      <div class="work-hero-content reveal-on-scroll">
+        <span class="section-tag">Case Studies &amp; Architectures</span>
+        <h1 class="page-title">Systems engineered for real operations.</h1>
+        <p class="page-lead">
+          Detailed architecture and delivery profiles of production data infrastructure, custom software, and specialized AI systems.
+        </p>
+
+        <!-- Confidentiality Notice Banner (Required) -->
+        <div class="confidentiality-notice">
+          <svg class="notice-icon" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+            <rect width="18" height="11" x="3" y="11" rx="2" ry="2"></rect>
+            <path d="M7 11V7a5 5 0 0 1 10 0v4"></path>
+          </svg>
+          <p class="notice-text">
+            Much of our work is delivered through partners or under confidentiality agreements. We name clients only where we have written permission.
+          </p>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- Projects Grid -->
+  <section class="section section-dark-alt projects-grid-section">
+    <div class="container">
+      <div class="projects-list">
+        {projects.map((proj, idx) => (
+          <article class="project-spec-card reveal-on-scroll" style={`transition-delay: ${idx * 100}ms;`}>
+            <!-- Schematic Diagram Block -->
+            <div class="schematic-col">
+              <SchematicSvg projectType={proj.projectType} />
+            </div>
+
+            <!-- Structured Spec Block (Identical layout: Client, Problem, What we built, Stack, Delivery tag) -->
+            <div class="spec-col">
+              <div class="spec-header">
+                <span class={`badge-tag ${proj.deliveryTag === 'Named client' ? 'badge-tag-named' : 'badge-tag-partner'}`}>
+                  {proj.deliveryTag}
+                </span>
+                <span class="spec-client-inline">{proj.client}</span>
+              </div>
+
+              <h2 class="project-card-title">{proj.title}</h2>
+
+              <div class="specs-vertical-table">
+                <div class="spec-item">
+                  <span class="spec-key">Client</span>
+                  <div class="spec-val">
+                    <strong>{proj.client}</strong>
+                    {proj.clientNote && <small class="client-note-text">({proj.clientNote})</small>}
+                  </div>
+                </div>
+
+                <div class="spec-item">
+                  <span class="spec-key">Delivery tag</span>
+                  <div class="spec-val">{proj.deliveryTag}</div>
+                </div>
+
+                <div class="spec-item">
+                  <span class="spec-key">Problem</span>
+                  <div class="spec-val spec-body-text">{proj.problem}</div>
+                </div>
+
+                <div class="spec-item">
+                  <span class="spec-key">What we built</span>
+                  <div class="spec-val spec-body-text">{proj.whatWeBuilt}</div>
+                </div>
+
+                <div class="spec-item">
+                  <span class="spec-key">Stack</span>
+                  <div class="spec-val spec-chips-row">
+                    {proj.stack.map((item) => (
+                      <span class="stack-chip">{item}</span>
+                    ))}
+                  </div>
+                </div>
+              </div>
+
+              <div class="card-expand-bar">
+                <button
+                  type="button"
+                  class="btn btn-secondary btn-expand"
+                  data-open-modal={proj.id}
+                  aria-haspopup="dialog"
+                  aria-controls={`project-modal-${proj.id}`}
+                >
+                  <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                    <polyline points="15 3 21 3 21 9"></polyline>
+                    <polyline points="9 21 3 21 3 15"></polyline>
+                    <line x1="21" y1="3" x2="14" y2="10"></line>
+                    <line x1="3" y1="21" x2="10" y2="14"></line>
+                  </svg>
+                  <span>Expand architecture details</span>
+                </button>
+              </div>
+            </div>
+          </article>
+        ))}
+      </div>
+    </div>
+  </section>
+
+  <!-- Modals for each project -->
+  {projects.map((proj) => (
+    <ProjectModal project={proj} />
+  ))}
+
+  <!-- Partner Inquiry CTA -->
+  <section class="section section-dark partner-cta-section">
+    <div class="container container-narrow">
+      <div class="partner-card reveal-on-scroll">
+        <span class="section-tag">Partnership &amp; Subcontracting</span>
+        <h2 class="partner-title">Partnering with agencies and consultancies</h2>
+        <p class="partner-desc">
+          We frequently operate behind the scenes for strategic consultancies, creative agencies, and technology advisory firms who need specialized data pipelines and software engineering execution.
+        </p>
+        <div class="partner-actions">
+          <a href="/contact" class="btn btn-primary">
+            <span>Inquire as a partner</span>
+            <svg class="arrow-icon" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round">
+              <line x1="5" y1="12" x2="19" y2="12"></line>
+              <polyline points="12 5 19 12 12 19"></polyline>
+            </svg>
+          </a>
+        </div>
+      </div>
+    </div>
+  </section>
+</BaseLayout>
+
+<style>
+  .work-hero {
+    padding-block: clamp(3.5rem, 7vw, 5.5rem);
+    background: radial-gradient(circle at 20% 40%, rgba(27, 63, 125, 0.25) 0%, transparent 60%), #172031;
+    border-bottom: 1px solid rgba(41, 182, 212, 0.12);
+  }
+
+  .work-hero-content {
+    max-width: 800px;
+  }
+
+  .page-title {
+    font-size: clamp(2.35rem, 5vw, 3.6rem);
+    font-weight: 700;
+    color: #FFFFFF;
+    margin-block: 1rem 1.25rem;
+  }
+
+  .page-lead {
+    font-size: clamp(1.1rem, 2vw, 1.3rem);
+    color: #CBD5E1;
+    line-height: 1.6;
+    margin-block-end: 2rem;
+  }
+
+  .confidentiality-notice {
+    display: flex;
+    align-items: flex-start;
+    gap: 1rem;
+    background: rgba(27, 63, 125, 0.25);
+    border: 1px solid rgba(41, 182, 212, 0.25);
+    border-radius: var(--radius-md);
+    padding: 1.25rem 1.5rem;
+  }
+
+  .notice-icon {
+    color: var(--color-cyan);
+    flex-shrink: 0;
+    margin-top: 3px;
+  }
+
+  .notice-text {
+    font-size: 0.95rem;
+    color: #FFFFFF;
+    line-height: 1.55;
+    margin: 0;
+  }
+
+  /* Projects List */
+  .projects-grid-section {
+    padding-block: clamp(4rem, 7vw, 6.5rem);
+  }
+
+  .projects-list {
+    display: flex;
+    flex-direction: column;
+    gap: 3rem;
+  }
+
+  .project-spec-card {
+    background: #121A28;
+    border: 1px solid rgba(41, 182, 212, 0.2);
+    border-radius: var(--radius-xl);
+    padding: clamp(1.75rem, 4vw, 2.75rem);
+    display: grid;
+    grid-template-columns: 1fr;
+    gap: 2.5rem;
+    box-shadow: 0 16px 40px rgba(10, 16, 26, 0.4);
+    transition: border-color 0.3s ease;
+  }
+
+  @media (min-width: 960px) {
+    .project-spec-card {
+      grid-template-columns: 1.1fr 1.3fr;
+      align-items: center;
+      gap: 3.5rem;
+    }
+  }
+
+  .project-spec-card:hover {
+    border-color: rgba(41, 182, 212, 0.45);
+  }
+
+  @media (max-width: 600px) {
+    .project-spec-card {
+      padding: 1.35rem 1rem;
+      border-radius: var(--radius-lg);
+      gap: 1.5rem;
+    }
+
+    .specs-vertical-table {
+      padding: 1rem 0.85rem;
+    }
+  }
+
+  .schematic-col {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+  }
+
+  .spec-col {
+    display: flex;
+    flex-direction: column;
+    gap: 1.25rem;
+  }
+
+  .spec-header {
+    display: flex;
+    align-items: center;
+    gap: 1rem;
+  }
+
+  .spec-client-inline {
+    font-size: 0.85rem;
+    color: var(--text-muted-light);
+  }
+
+  .project-card-title {
+    font-size: clamp(1.5rem, 2.5vw, 2rem);
+    font-weight: 700;
+    color: #FFFFFF;
+    line-height: 1.2;
+  }
+
+  .specs-vertical-table {
+    display: flex;
+    flex-direction: column;
+    gap: 1rem;
+    background: rgba(23, 32, 49, 0.6);
+    border: 1px solid rgba(41, 182, 212, 0.12);
+    border-radius: var(--radius-md);
+    padding: 1.25rem;
+  }
+
+  .spec-item {
+    display: grid;
+    grid-template-columns: 130px 1fr;
+    gap: 1rem;
+    align-items: baseline;
+  }
+
+  @media (max-width: 580px) {
+    .spec-item {
+      grid-template-columns: 1fr;
+      gap: 0.25rem;
+    }
+  }
+
+  .spec-key {
+    font-family: var(--font-mono);
+    font-size: 0.78rem;
+    font-weight: 600;
+    color: var(--color-cyan);
+    text-transform: uppercase;
+    letter-spacing: 0.06em;
+  }
+
+  .spec-val {
+    font-size: 0.95rem;
+    color: #CBD5E1;
+  }
+
+  .client-note-text {
+    font-size: 0.8rem;
+    color: var(--text-muted-light);
+    margin-left: 0.35rem;
+  }
+
+  .spec-body-text {
+    line-height: 1.55;
+    margin: 0;
+  }
+
+  .spec-chips-row {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 0.4rem;
+  }
+
+  .card-expand-bar {
+    padding-top: 0.5rem;
+  }
+
+  .btn-expand {
+    width: 100%;
+    padding-block: 0.85rem;
+    justify-content: center;
+  }
+
+  /* Partner CTA */
+  .partner-card {
+    background: rgba(27, 63, 125, 0.18);
+    border: 1px solid rgba(41, 182, 212, 0.2);
+    border-radius: var(--radius-lg);
+    padding: clamp(2rem, 5vw, 3rem);
+    text-align: center;
+  }
+
+  .partner-title {
+    font-size: clamp(1.75rem, 3.2vw, 2.35rem);
+    color: #FFFFFF;
+    margin-block: 0.75rem 1rem;
+  }
+
+  .partner-desc {
+    font-size: 1.05rem;
+    color: #CBD5E1;
+    line-height: 1.65;
+    margin-block-end: 1.75rem;
+  }
+
+  .partner-actions {
+    display: flex;
+    justify-content: center;
+  }
+</style>
+
+<script>
+  function initProjectModals() {
+    const openButtons = document.querySelectorAll<HTMLButtonElement>('[data-open-modal]');
+    const closeButtons = document.querySelectorAll<HTMLButtonElement>('[data-close-modal]');
+    let previouslyFocusedElement: HTMLElement | null = null;
+
+    function openModal(id: string) {
+      const modal = document.getElementById(`project-modal-${id}`);
+      if (!modal) return;
+
+      previouslyFocusedElement = document.activeElement as HTMLElement;
+      modal.classList.add('is-open');
+      modal.setAttribute('aria-hidden', 'false');
+      document.body.style.overflow = 'hidden';
+
+      const firstClose = modal.querySelector<HTMLElement>('[data-close-modal]');
+      firstClose?.focus();
+    }
+
+    function closeModal(id: string) {
+      const modal = document.getElementById(`project-modal-${id}`);
+      if (!modal) return;
+
+      modal.classList.remove('is-open');
+      modal.setAttribute('aria-hidden', 'true');
+      document.body.style.overflow = '';
+
+      if (previouslyFocusedElement) {
+        previouslyFocusedElement.focus();
+      }
+    }
+
+    openButtons.forEach((btn) => {
+      btn.addEventListener('click', () => {
+        const id = btn.dataset.openModal;
+        if (id) openModal(id);
+      });
+    });
+
+    closeButtons.forEach((btn) => {
+      btn.addEventListener('click', () => {
+        const id = btn.dataset.closeModal;
+        if (id) closeModal(id);
+      });
+    });
+
+    // Close on backdrop click
+    document.querySelectorAll('.project-modal-backdrop').forEach((backdrop) => {
+      backdrop.addEventListener('click', (e) => {
+        if (e.target === backdrop) {
+          const id = backdrop.id.replace('project-modal-', '');
+          closeModal(id);
+        }
+      });
+    });
+
+    // Close on escape key
+    window.addEventListener('keydown', (e) => {
+      if (e.key === 'Escape') {
+        const openModalEl = document.querySelector('.project-modal-backdrop.is-open');
+        if (openModalEl) {
+          const id = openModalEl.id.replace('project-modal-', '');
+          closeModal(id);
+        }
+      }
+    });
+  }
+
+  if (document.readyState === 'loading') {
+    document.addEventListener('DOMContentLoaded', initProjectModals);
+  } else {
+    initProjectModals();
+  }
+</script>

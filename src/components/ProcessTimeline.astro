@@ -1,0 +1,447 @@
+---
+export interface Props {
+  variant?: "home-horizontal" | "process-vertical";
+}
+
+const { variant = "home-horizontal" } = Astro.props;
+
+const steps = [
+  {
+    num: "01",
+    title: "Discover",
+    sentences: "We audit your existing data sources, schemas, and manual processes to understand the technical baseline. We identify operational constraints, security requirements, and data flow bottlenecks. This ensures the project targets high-impact problems rather than surface symptoms.",
+    deliverable: "Technical audit summary, architecture gap assessment, and clarified scope definition."
+  },
+  {
+    num: "02",
+    title: "Design",
+    sentences: "We specify the system architecture, schema models, API contracts, and integration points before writing code. We establish performance criteria, cloud infrastructure topology, and interface specifications. Everything is reviewed together to eliminate ambiguities early.",
+    deliverable: "System architecture diagram, database schema specifications, and implementation roadmap."
+  },
+  {
+    num: "03",
+    title: "Build",
+    sentences: "We develop data pipelines, backend services, models, and interfaces in testable, iterative increments. Code is written against agreed standards with automated tests and containerized environments. You have visibility into steady engineering progress throughout.",
+    deliverable: "Deployed staging environment, functional pipeline/API modules, and regular milestone reviews."
+  },
+  {
+    num: "04",
+    title: "Validate",
+    sentences: "We test data integrity, query speed, edge-case resilience, and interface workflows against real-world scenarios. We benchmark latency, verify data transformation accuracy, and audit security configurations. Nothing moves to production without verification.",
+    deliverable: "Validation report, data accuracy audit, and performance benchmark test results."
+  },
+  {
+    num: "05",
+    title: "Launch",
+    sentences: "We migrate production data, configure live cloud resources, and switch on scheduled jobs with zero disruption to daily business. We monitor execution logs, verify live connections, and support your team during initial live runs.",
+    deliverable: "Production deployment, operational monitoring dashboards, and live cutover verification."
+  },
+  {
+    num: "06",
+    title: "Support",
+    sentences: "We provide post-launch operational support, performance tuning, and planned maintenance so systems stay fast and dependable. Handover documentation and training ensure your team understands every component.",
+    deliverable: "Complete technical documentation, administrative handover, and ongoing support coverage."
+  }
+];
+---
+
+<div class={`timeline-container ${variant}`}>
+  {variant === "home-horizontal" ? (
+    <!-- Horizontal Timeline on Desktop, Vertical on Mobile -->
+    <div class="horizontal-timeline-track">
+      <div class="timeline-progress-bar" aria-hidden="true">
+        <div class="progress-fill" id="timeline-progress-fill"></div>
+      </div>
+
+      <div class="horizontal-steps-grid">
+        {steps.map((step, idx) => (
+          <div class="step-column reveal-on-scroll" style={`transition-delay: ${idx * 80}ms;`}>
+            <div class="step-indicator">
+              <span class="step-num">{step.num}</span>
+              <div class="step-dot" aria-hidden="true"></div>
+            </div>
+            <div class="step-card">
+              <h3 class="step-title">{step.title}</h3>
+              <p class="step-body">{step.sentences}</p>
+              <div class="deliverable-box">
+                <span class="deliverable-label">Client receives:</span>
+                <span class="deliverable-value">{step.deliverable}</span>
+              </div>
+            </div>
+          </div>
+        ))}
+      </div>
+    </div>
+  ) : (
+    <!-- Full Vertical Timeline for Process Page -->
+    <div class="vertical-timeline-track">
+      <div class="vertical-progress-line" aria-hidden="true">
+        <div class="vertical-fill" id="vertical-timeline-fill"></div>
+      </div>
+
+      <div class="vertical-steps-list">
+        {steps.map((step, idx) => (
+          <div class="v-step-item reveal-on-scroll" data-vstep>
+            <div class="v-step-node" aria-hidden="true">
+              <span class="v-step-num">{step.num}</span>
+            </div>
+            <div class="v-step-content">
+              <div class="v-step-header">
+                <span class="v-badge">Step {step.num}</span>
+                <h3 class="v-step-title">{step.title}</h3>
+              </div>
+              <p class="v-step-desc">{step.sentences}</p>
+              <div class="v-deliverable-wrap">
+                <span class="v-deliv-label">What you receive:</span>
+                <p class="v-deliv-text">{step.deliverable}</p>
+              </div>
+            </div>
+          </div>
+        ))}
+      </div>
+    </div>
+  )}
+</div>
+
+<style>
+  .timeline-container {
+    width: 100%;
+    position: relative;
+  }
+
+  /* Horizontal Timeline (Home page) */
+  .horizontal-timeline-track {
+    position: relative;
+    padding-block-start: 2rem;
+  }
+
+  .timeline-progress-bar {
+    display: none;
+    position: absolute;
+    top: 3.25rem;
+    left: 2%;
+    right: 2%;
+    height: 3px;
+    background: rgba(41, 182, 212, 0.15);
+    z-index: 1;
+  }
+
+  .progress-fill {
+    width: 0%;
+    height: 100%;
+    background: linear-gradient(90deg, var(--color-brand-blue) 0%, var(--color-cyan) 100%);
+    box-shadow: 0 0 12px var(--color-cyan);
+    transition: width 0.3s ease;
+  }
+
+  @media (min-width: 1024px) {
+    .timeline-progress-bar {
+      display: block;
+    }
+  }
+
+  .horizontal-steps-grid {
+    display: grid;
+    grid-template-columns: 1fr;
+    gap: 1.5rem;
+    position: relative;
+    z-index: 2;
+  }
+
+  @media (min-width: 640px) {
+    .horizontal-steps-grid {
+      grid-template-columns: repeat(2, 1fr);
+    }
+  }
+
+  @media (min-width: 1024px) {
+    .horizontal-steps-grid {
+      grid-template-columns: repeat(6, 1fr);
+      gap: 1.25rem;
+    }
+  }
+
+  .step-column {
+    display: flex;
+    flex-direction: column;
+    gap: 1rem;
+  }
+
+  .step-indicator {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 0.5rem;
+  }
+
+  .step-num {
+    font-family: var(--font-mono);
+    font-size: 0.85rem;
+    font-weight: 700;
+    color: var(--color-cyan);
+  }
+
+  .step-dot {
+    width: 16px;
+    height: 16px;
+    border-radius: 50%;
+    background: #172031;
+    border: 3px solid var(--color-cyan);
+    box-shadow: 0 0 10px rgba(41, 182, 212, 0.4);
+    transition: transform 0.2s ease, background 0.2s ease;
+  }
+
+  .step-column:hover .step-dot {
+    transform: scale(1.3);
+    background: var(--color-cyan);
+  }
+
+  .step-card {
+    background: rgba(23, 32, 49, 0.75);
+    border: 1px solid rgba(41, 182, 212, 0.16);
+    border-radius: var(--radius-md);
+    padding: 1.25rem;
+    display: flex;
+    flex-direction: column;
+    gap: 0.75rem;
+    height: 100%;
+    transition: transform 0.25s ease, border-color 0.25s ease;
+  }
+
+  .step-column:hover .step-card {
+    border-color: rgba(41, 182, 212, 0.45);
+    transform: translateY(-3px);
+  }
+
+  .step-title {
+    font-size: 1.15rem;
+    font-weight: 600;
+    color: #FFFFFF;
+  }
+
+  .step-body {
+    font-size: 0.85rem;
+    color: #94A3B8;
+    line-height: 1.55;
+    margin: 0;
+  }
+
+  .deliverable-box {
+    margin-top: auto;
+    padding-top: 0.65rem;
+    border-top: 1px solid rgba(255, 255, 255, 0.06);
+    display: flex;
+    flex-direction: column;
+    gap: 0.25rem;
+  }
+
+  .deliverable-label {
+    font-family: var(--font-mono);
+    font-size: 0.72rem;
+    font-weight: 600;
+    color: var(--color-cyan);
+    text-transform: uppercase;
+  }
+
+  .deliverable-value {
+    font-size: 0.8rem;
+    color: #CBD5E1;
+    line-height: 1.4;
+  }
+
+  /* Vertical Timeline (Process page) */
+  .vertical-timeline-track {
+    position: relative;
+    max-width: 860px;
+    margin-inline: auto;
+    padding-inline-start: 3rem;
+  }
+
+  .vertical-progress-line {
+    position: absolute;
+    top: 10px;
+    bottom: 20px;
+    left: 17px;
+    width: 3px;
+    background: rgba(41, 182, 212, 0.15);
+  }
+
+  .vertical-fill {
+    width: 100%;
+    height: 0%;
+    background: linear-gradient(180deg, var(--color-brand-blue) 0%, var(--color-cyan) 100%);
+    box-shadow: 0 0 14px var(--color-cyan);
+    transition: height 0.3s ease;
+  }
+
+  .vertical-steps-list {
+    display: flex;
+    flex-direction: column;
+    gap: 3rem;
+  }
+
+  .v-step-item {
+    position: relative;
+    display: flex;
+    align-items: flex-start;
+  }
+
+  .v-step-node {
+    position: absolute;
+    left: -3rem;
+    top: 4px;
+    width: 38px;
+    height: 38px;
+    border-radius: 50%;
+    background: #172031;
+    border: 2px solid var(--color-cyan);
+    box-shadow: 0 0 14px rgba(41, 182, 212, 0.3);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    z-index: 2;
+  }
+
+  .v-step-num {
+    font-family: var(--font-mono);
+    font-size: 0.8rem;
+    font-weight: 700;
+    color: #FFFFFF;
+  }
+
+  .v-step-content {
+    background: rgba(23, 32, 49, 0.75);
+    border: 1px solid rgba(41, 182, 212, 0.16);
+    border-radius: var(--radius-lg);
+    padding: 2rem;
+    width: 100%;
+    box-shadow: var(--shadow-sm);
+    transition: border-color 0.25s ease, transform 0.25s ease;
+  }
+
+  .v-step-content:hover {
+    border-color: rgba(41, 182, 212, 0.45);
+    transform: translateY(-2px);
+  }
+
+  .v-step-header {
+    display: flex;
+    align-items: center;
+    gap: 1rem;
+    margin-block-end: 0.75rem;
+  }
+
+  .v-badge {
+    font-family: var(--font-mono);
+    font-size: 0.75rem;
+    font-weight: 600;
+    color: var(--color-cyan);
+    background: rgba(41, 182, 212, 0.1);
+    padding: 0.25rem 0.65rem;
+    border-radius: var(--radius-full);
+  }
+
+  .v-step-title {
+    font-size: 1.5rem;
+    font-weight: 700;
+    color: #FFFFFF;
+  }
+
+  .v-step-desc {
+    font-size: 1rem;
+    color: #CBD5E1;
+    line-height: 1.65;
+    margin-block-end: 1.25rem;
+  }
+
+  .v-deliverable-wrap {
+    background: rgba(27, 63, 125, 0.25);
+    border: 1px solid rgba(41, 182, 212, 0.15);
+    border-radius: var(--radius-md);
+    padding: 1.25rem;
+  }
+
+  .v-deliv-label {
+    font-family: var(--font-mono);
+    font-size: 0.8rem;
+    font-weight: 600;
+    color: var(--color-cyan);
+    text-transform: uppercase;
+    letter-spacing: 0.05em;
+    display: block;
+    margin-block-end: 0.35rem;
+  }
+
+  .v-deliv-text {
+    font-size: 0.95rem;
+    color: #FFFFFF;
+    margin: 0;
+  }
+  @media (max-width: 640px) {
+    .vertical-timeline-track {
+      padding-inline-start: 2.25rem;
+    }
+
+    .vertical-progress-line {
+      left: 12px;
+    }
+
+    .v-step-node {
+      left: -2.25rem;
+      width: 30px;
+      height: 30px;
+    }
+
+    .v-step-num {
+      font-size: 0.72rem;
+    }
+
+    .v-step-content {
+      padding: 1.35rem 1.15rem;
+    }
+
+    .v-step-title {
+      font-size: 1.25rem;
+    }
+  }
+</style>
+
+<script>
+  function initTimelineHighlight() {
+    // Scroll progress line for vertical timeline
+    const vFill = document.getElementById('vertical-timeline-fill');
+    const vTrack = document.querySelector('.vertical-timeline-track');
+    
+    // Horizontal progress for home timeline
+    const hFill = document.getElementById('timeline-progress-fill');
+    const hTrack = document.querySelector('.horizontal-timeline-track');
+
+    function updateProgress() {
+      if (vFill && vTrack) {
+        const rect = vTrack.getBoundingClientRect();
+        const windowHeight = window.innerHeight;
+        const totalHeight = rect.height;
+        const currentPos = windowHeight * 0.6 - rect.top;
+        const progress = Math.min(Math.max(currentPos / totalHeight, 0), 1);
+        vFill.style.height = `${progress * 100}%`;
+      }
+
+      if (hFill && hTrack) {
+        const rect = hTrack.getBoundingClientRect();
+        const windowHeight = window.innerHeight;
+        const currentPos = windowHeight * 0.7 - rect.top;
+        const progress = Math.min(Math.max(currentPos / rect.height, 0), 1);
+        hFill.style.width = `${progress * 100}%`;
+      }
+    }
+
+    window.addEventListener('scroll', updateProgress, { passive: true });
+    updateProgress();
+  }
+
+  if (document.readyState === 'loading') {
+    document.addEventListener('DOMContentLoaded', initTimelineHighlight);
+  } else {
+    initTimelineHighlight();
+  }
+</script>

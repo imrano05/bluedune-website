@@ -1,0 +1,128 @@
+---
+import SeoHead from '../components/SeoHead.astro';
+import Header from '../components/Header.astro';
+import Footer from '../components/Footer.astro';
+import '../styles/global.css';
+
+export interface Props {
+  title?: string;
+  description?: string;
+  canonicalPath?: string;
+}
+
+const { title, description, canonicalPath } = Astro.props;
+const currentPath = Astro.url.pathname;
+---
+
+<!DOCTYPE html>
+<html lang="en" dir="ltr">
+  <head>
+    <SeoHead title={title} description={description} canonicalPath={canonicalPath || currentPath} />
+  </head>
+  <body>
+    <!-- Accessibility Skip Link -->
+    <a href="#main-content" class="skip-link">Skip to main content</a>
+
+    <!-- Desktop Cursor Ambient Glow -->
+    <div id="cursor-glow" aria-hidden="true"></div>
+
+    <!-- Main Navigation Header -->
+    <Header currentPath={currentPath} />
+
+    <!-- Page Body -->
+    <main id="main-content" class="page-main">
+      <slot />
+    </main>
+
+    <!-- Global Footer -->
+    <Footer />
+
+    <style>
+      .skip-link {
+        position: absolute;
+        top: -100px;
+        inset-inline-start: 1rem;
+        background: var(--color-cyan);
+        color: var(--color-navy);
+        padding: 0.75rem 1.25rem;
+        font-weight: 600;
+        z-index: 9999;
+        border-radius: var(--radius-sm);
+        transition: top 0.2s ease;
+      }
+
+      .skip-link:focus {
+        top: 1rem;
+      }
+
+      .page-main {
+        flex: 1;
+        width: 100%;
+        position: relative;
+      }
+    </style>
+
+    <script>
+      // Global micro-interactions: Cursor glow & Scroll Reveals
+      function initGlobalInteractions() {
+        // 1. Cursor glow on desktop fine-pointer devices
+        const glow = document.getElementById('cursor-glow');
+        if (glow && window.matchMedia('(hover: hover) and (pointer: fine)').matches) {
+          let mouseX = -1000;
+          let mouseY = -1000;
+          let currentX = -1000;
+          let currentY = -1000;
+          let rafId: number | null = null;
+
+          window.addEventListener('mousemove', (e) => {
+            mouseX = e.clientX;
+            mouseY = e.clientY;
+            if (!rafId) {
+              rafId = requestAnimationFrame(updateGlow);
+            }
+          }, { passive: true });
+
+          function updateGlow() {
+            currentX += (mouseX - currentX) * 0.15;
+            currentY += (mouseY - currentY) * 0.15;
+            if (glow) {
+              glow.style.transform = `translate3d(${currentX}px, ${currentY}px, 0)`;
+            }
+            if (Math.abs(mouseX - currentX) > 0.5 || Math.abs(mouseY - currentY) > 0.5) {
+              rafId = requestAnimationFrame(updateGlow);
+            } else {
+              rafId = null;
+            }
+          }
+        }
+
+        // 2. Scroll reveal observer
+        const revealElements = document.querySelectorAll('.reveal-on-scroll');
+        if (revealElements.length > 0 && 'IntersectionObserver' in window) {
+          const observer = new IntersectionObserver(
+            (entries) => {
+              entries.forEach((entry) => {
+                if (entry.isIntersecting) {
+                  entry.target.classList.add('is-revealed');
+                  observer.unobserve(entry.target);
+                }
+              });
+            },
+            { threshold: 0.12, rootMargin: '0px 0px -40px 0px' }
+          );
+
+          revealElements.forEach((el) => observer.observe(el));
+        } else {
+          // Fallback if reduced motion or no IntersectionObserver
+          revealElements.forEach((el) => el.classList.add('is-revealed'));
+        }
+      }
+
+      if (document.readyState === 'loading') {
+        document.addEventListener('DOMContentLoaded', initGlobalInteractions);
+      } else {
+        initGlobalInteractions();
+      }
+    </script>
+  </body>
+</html>

@@ -1,0 +1,700 @@
+---
+import BaseLayout from '../layouts/BaseLayout.astro';
+
+const capabilities = [
+  {
+    id: "data-engineering",
+    featured: true,
+    badge: "Core Engineering Discipline",
+    title: "Data platforms and pipelines",
+    problem: "Disconnected operational databases, fragile spreadsheets, and unmanaged data dumps prevent organizations from trusting their operational numbers or automating workflows.",
+    deliver: "Resilient end-to-end data ingestion, automated schema validation, transformation pipelines, cloud data warehouses, and governed data marts designed for high query performance.",
+    tools: ["Python", "SQL", "PostgreSQL", "Snowflake", "dbt", "Airflow", "AWS", "Docker"],
+    icon: `<path d="M4 14.899A7 7 0 1 1 15.71 8h1.79a4.5 4.5 0 0 1 2.5 8.242"></path><path d="M12 12v9"></path><path d="m8 17 4 4 4-4"></path>`
+  },
+  {
+    id: "ai-systems",
+    featured: true,
+    badge: "Intelligent Systems",
+    title: "AI knowledge systems & RAG",
+    problem: "Internal policies, legal documentation, technical manuals, and operational records are locked in static PDFs and document stores, forcing staff to spend hours on manual search and verification.",
+    deliver: "Production retrieval-augmented generation (RAG) engines, hybrid semantic and keyword retrieval across multi-format documents, and conversational assistants with cited source verification.",
+    tools: ["LangChain", "LangGraph", "FastAPI", "MongoDB", "Docker"],
+    icon: `<path d="M12 2a8 8 0 0 0-8 8c0 3.36 2.07 6.24 5 7.42V20a2 2 0 0 0 2 2h2a2 2 0 0 0 2-2v-2.58c2.93-1.18 5-4.06 5-7.42a8 8 0 0 0-8-8z"></path><line x1="12" y1="9" x2="12" y2="13"></line><line x1="9" y1="12" x2="15" y2="12"></line>`
+  },
+  {
+    id: "automation",
+    featured: true,
+    badge: "Operational Efficiency",
+    title: "Automation and AI agents",
+    problem: "Repetitive cross-system tasks—such as copying information from emails into spreadsheets, generating invoices, and verifying order statuses—consume staff hours and create data entry mistakes.",
+    deliver: "Deterministic and agentic workflows connecting communications, spreadsheets, databases, and internal APIs into automated event-driven pipelines.",
+    tools: ["n8n", "Python", "FastAPI", "Docker"],
+    icon: `<rect width="18" height="18" x="3" y="3" rx="2"></rect><path d="m9 8 6 4-6 4Z"></path>`
+  },
+  {
+    id: "analytics",
+    featured: false,
+    badge: "Business Intelligence",
+    title: "Analytics and forecasting",
+    problem: "Static monthly reports are often outdated by the time decision-makers see them, with no visibility into underlying operational trends or forward-looking projections.",
+    deliver: "Automated recurring reporting pipelines, interactive executive BI dashboards, dimensional reporting stores, and predictive forecasting pipelines.",
+    tools: ["Power BI", "SQL", "Python", "PostgreSQL", "Snowflake"],
+    icon: `<line x1="18" y1="20" x2="18" y2="10"></line><line x1="12" y1="20" x2="12" y2="4"></line><line x1="6" y1="20" x2="6" y2="14"></line>`
+  },
+  {
+    id: "web-api",
+    featured: false,
+    badge: "Full-Stack Software",
+    title: "Custom web and API products",
+    problem: "Off-the-shelf software rarely fits specialized regional logistics, administrative workflows, or bespoke operational processes, leading to disconnected workarounds.",
+    deliver: "Fast, secure web applications, administration portals, customer dashboards, and well-documented REST APIs with robust authentication and audit trails.",
+    tools: ["React", "FastAPI", "PostgreSQL", "Docker"],
+    icon: `<circle cx="12" cy="12" r="10"></circle><line x1="2" y1="12" x2="22" y2="12"></line><path d="M12 2a15.3 15.3 0 0 1 4 10 15.3 15.3 0 0 1-4 10 15.3 15.3 0 0 1-4-10 15.3 15.3 0 0 1 4-10z"></path>`
+  },
+  {
+    id: "mobile-vision",
+    featured: false,
+    badge: "Edge & Mobile",
+    title: "Mobile and computer vision",
+    problem: "Field personnel, inspectors, and mobile teams need offline-capable, cross-platform mobile access and on-device image analysis without complex hardware.",
+    deliver: "High-performance cross-platform Flutter applications with on-device computer vision features, offline caching, and secure backend synchronization.",
+    tools: ["Flutter", "Python", "FastAPI"],
+    icon: `<rect width="14" height="20" x="5" y="2" rx="2" ry="2"></rect><path d="M12 18h.01"></path>`
+  }
+];
+
+const fullServiceCategories = [
+  {
+    id: "ai",
+    name: "AI and intelligent systems",
+    items: [
+      { name: "RAG and document intelligence", desc: "We can build search and retrieval engines over complex multi-format document collections." },
+      { name: "Chatbots and virtual assistants", desc: "We can build conversational systems for specialized customer or internal inquiries." },
+      { name: "AI agents", desc: "We can build autonomous task execution systems operating across software tools." },
+      { name: "Workflow automation (n8n)", desc: "We can build automated event-driven integrations connecting business tools and databases." },
+      { name: "Predictive analytics and forecasting", desc: "We can build time-series models and forecasting pipelines for operational demand." },
+      { name: "Computer vision", desc: "We can build visual inspection and on-device image analysis modules." },
+      { name: "Voice AI", desc: "We can build speech-to-text, audio transcription, and interactive voice inquiry interfaces." },
+      { name: "AI integration and MLOps", desc: "We can build production infrastructure to monitor, deploy, and version AI models safely." }
+    ]
+  },
+  {
+    id: "data",
+    name: "Data engineering and analytics",
+    items: [
+      { name: "Data pipelines (ETL/ELT)", desc: "We can build automated data extraction, cleaning, and transformation pipelines." },
+      { name: "Data warehouse design", desc: "We can build centralized analytical storage modeled for performance and governance." },
+      { name: "BI dashboards and reporting", desc: "We can build automated interactive dashboards and recurring executive reporting." },
+      { name: "Database design, migration and optimisation", desc: "We can build relational schemas, indexing strategies, and zero-downtime data migrations." },
+      { name: "Cloud data infrastructure", desc: "We can build scalable cloud storage, compute, and data container environments." }
+    ]
+  },
+  {
+    id: "web",
+    name: "Web and APIs",
+    items: [
+      { name: "Custom web applications", desc: "We can build responsive, secure business web applications and portals." },
+      { name: "API development and integration", desc: "We can build RESTful APIs with authentication, rate limiting, and third-party integrations." },
+      { name: "Logistics and transport systems", desc: "We can build trip tracking, fleet dispatch, and operational ledger software." },
+      { name: "SaaS platforms", desc: "We can build multi-tenant web platforms with subscription and role management." }
+    ]
+  },
+  {
+    id: "mobile",
+    name: "Mobile",
+    items: [
+      { name: "Cross-platform Flutter apps", desc: "We can build unified iOS and Android applications with offline-first synchronization." }
+    ]
+  },
+  {
+    id: "support",
+    name: "Design, QA and support",
+    items: [
+      { name: "Product and interface design", desc: "We can build clean, user-friendly interface designs and interaction patterns." },
+      { name: "Quality assurance", desc: "We can build automated test suites, load testing scripts, and data integrity audits." },
+      { name: "Long-term support", desc: "We can build maintenance programs, patch management, and SLA-based system support." }
+    ]
+  }
+];
+
+const engagementModels = [
+  {
+    title: "Fixed-scope projects",
+    desc: "Clearly defined deliverables, milestones, and architectural specifications with agreed delivery deadlines. Best for well-scoped systems, pipelines, or application builds.",
+    badge: "Milestone-driven"
+  },
+  {
+    title: "Support retainers",
+    desc: "Ongoing engineering availability for performance monitoring, schema evolution, pipeline maintenance, and incremental enhancements. Ensures long-term dependability.",
+    badge: "Continuous stability"
+  },
+  {
+    title: "Discovery and solution design",
+    desc: "Focused technical audits, architecture blueprints, data modeling, and scoping prior to major development commitments. Aligns technical requirements with business goals.",
+    badge: "Strategic alignment"
+  }
+];
+---
+
+<BaseLayout
+  title="Services & Capabilities | BlueDuneSolution"
+  description="Data engineering, AI/ML knowledge systems, workflow automation, and custom software for businesses in Oman and the wider Gulf."
+>
+  <!-- Page Hero -->
+  <section class="section section-dark services-hero">
+    <div class="container">
+      <div class="hero-intro reveal-on-scroll">
+        <span class="section-tag">Capabilities &amp; Services</span>
+        <h1 class="page-title">Engineering capabilities for enterprise reliability.</h1>
+        <p class="page-lead">
+          We turn scattered data and manual workflows into reliable data platforms, automated intelligence, and custom software. Built on solid data engineering foundations.
+        </p>
+      </div>
+    </div>
+  </section>
+
+  <!-- Large Alternating Capabilities Sections -->
+  <section class="capabilities-alternating">
+    {capabilities.map((cap, index) => {
+      const isEven = index % 2 === 1;
+      const sectionBg = isEven ? "section-dark-alt" : "section-dark";
+      return (
+        <article id={cap.id} class={`section ${sectionBg} capability-section ${cap.featured ? 'is-featured' : ''}`}>
+          <div class="container">
+            <div class={`cap-layout ${isEven ? 'layout-reverse' : ''} reveal-on-scroll`}>
+              <div class="cap-primary">
+                <div class="cap-header">
+                  <span class={`cap-badge ${cap.featured ? 'badge-featured' : ''}`}>
+                    {cap.badge}
+                  </span>
+                  <div class="cap-icon-box" aria-hidden="true">
+                    <svg
+                      width="28"
+                      height="28"
+                      viewBox="0 0 24 24"
+                      fill="none"
+                      stroke="currentColor"
+                      stroke-width="1.8"
+                      stroke-linecap="round"
+                      stroke-linejoin="round"
+                      set:html={cap.icon}
+                    />
+                  </div>
+                </div>
+
+                <h2 class="cap-title">{cap.title}</h2>
+
+                <div class="cap-details-block">
+                  <div class="cap-block">
+                    <span class="block-label">Problem it solves</span>
+                    <p class="block-text">{cap.problem}</p>
+                  </div>
+
+                  <div class="cap-block">
+                    <span class="block-label">What we deliver</span>
+                    <p class="block-text">{cap.deliver}</p>
+                  </div>
+                </div>
+              </div>
+
+              <div class="cap-sidebar">
+                <div class="tools-card">
+                  <span class="tools-card-title">Typical tools &amp; technologies:</span>
+                  <div class="tools-chip-cloud">
+                    {cap.tools.map((tool) => (
+                      <span class="tool-chip">{tool}</span>
+                    ))}
+                  </div>
+
+                  <div class="tools-card-action">
+                    <a href="/contact" class="btn btn-secondary btn-full">
+                      <span>Inquire about this capability</span>
+                      <svg class="arrow-icon" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                        <line x1="5" y1="12" x2="19" y2="12"></line>
+                        <polyline points="12 5 19 12 12 19"></polyline>
+                      </svg>
+                    </a>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </article>
+      );
+    })}
+  </section>
+
+  <!-- Filterable Full Service List -->
+  <section class="section section-light full-services-section" aria-labelledby="catalog-title">
+    <div class="container">
+      <div class="section-header reveal-on-scroll">
+        <span class="section-tag">Service Catalog</span>
+        <h2 id="catalog-title" class="section-title">Full service list</h2>
+        <p class="section-subtitle">
+          Specific modules and software systems we build, engineered to your exact operational requirements.
+        </p>
+      </div>
+
+      <!-- Category Filter Tabs -->
+      <div class="service-tabs-wrapper reveal-on-scroll">
+        <div class="tabs-nav" role="tablist" aria-label="Service categories">
+          {fullServiceCategories.map((cat, idx) => (
+            <button
+              class={`tab-button ${idx === 0 ? 'active' : ''}`}
+              role="tab"
+              aria-selected={idx === 0 ? 'true' : 'false'}
+              aria-controls={`category-panel-${cat.id}`}
+              id={`tab-btn-${cat.id}`}
+              data-category-target={cat.id}
+            >
+              {cat.name}
+            </button>
+          ))}
+        </div>
+
+        <!-- Tab Panels -->
+        <div class="tabs-content-container">
+          {fullServiceCategories.map((cat, idx) => (
+            <div
+              id={`category-panel-${cat.id}`}
+              class={`category-tab-panel ${idx === 0 ? 'active' : ''}`}
+              role="tabpanel"
+              aria-labelledby={`tab-btn-${cat.id}`}
+            >
+              <div class="services-list-grid">
+                {cat.items.map((item) => (
+                  <div class="service-item-card">
+                    <div class="service-item-header">
+                      <svg class="item-check" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+                        <polyline points="20 6 9 17 4 12"></polyline>
+                      </svg>
+                      <h3 class="service-item-name">{item.name}</h3>
+                    </div>
+                    <p class="service-item-desc">{item.desc}</p>
+                  </div>
+                ))}
+              </div>
+            </div>
+          ))}
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- How We Can Work Together -->
+  <section class="section section-dark engagement-section" aria-labelledby="engagement-title">
+    <div class="container">
+      <div class="section-header reveal-on-scroll">
+        <span class="section-tag">Collaboration Models</span>
+        <h2 id="engagement-title" class="section-title">How we can work together</h2>
+        <p class="section-subtitle">
+          Transparent, structured engagement formats tailored to your technical roadmap.
+        </p>
+      </div>
+
+      <div class="engagement-grid">
+        {engagementModels.map((model, idx) => (
+          <div class="engagement-card reveal-on-scroll" style={`transition-delay: ${idx * 80}ms;`}>
+            <span class="engagement-badge">{model.badge}</span>
+            <h3 class="engagement-title">{model.title}</h3>
+            <p class="engagement-desc">{model.desc}</p>
+          </div>
+        ))}
+      </div>
+
+      <div class="engagement-cta reveal-on-scroll">
+        <a href="/contact" class="btn btn-primary">
+          <span>Discuss your requirements</span>
+          <svg class="arrow-icon" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round">
+            <line x1="5" y1="12" x2="19" y2="12"></line>
+            <polyline points="12 5 19 12 12 19"></polyline>
+          </svg>
+        </a>
+      </div>
+    </div>
+  </section>
+</BaseLayout>
+
+<style>
+  .services-hero {
+    padding-block: clamp(3.5rem, 7vw, 5.5rem);
+    background: radial-gradient(circle at 80% 30%, rgba(27, 63, 125, 0.28) 0%, transparent 60%), #172031;
+    border-bottom: 1px solid rgba(41, 182, 212, 0.12);
+  }
+
+  .hero-intro {
+    max-width: 780px;
+  }
+
+  .page-title {
+    font-size: clamp(2.35rem, 5vw, 3.6rem);
+    font-weight: 700;
+    color: #FFFFFF;
+    margin-block: 1rem 1.25rem;
+  }
+
+  .page-lead {
+    font-size: clamp(1.1rem, 2vw, 1.3rem);
+    color: #CBD5E1;
+    line-height: 1.6;
+  }
+
+  /* Capabilities Alternating */
+  .capability-section {
+    padding-block: clamp(3.5rem, 6vw, 5.5rem);
+    border-bottom: 1px solid rgba(41, 182, 212, 0.1);
+  }
+
+  .capability-section.is-featured {
+    background: radial-gradient(circle at 10% 50%, rgba(41, 182, 212, 0.08) 0%, transparent 50%), rgba(23, 32, 49, 0.95);
+  }
+
+  .cap-layout {
+    display: grid;
+    grid-template-columns: 1fr;
+    gap: 2.5rem;
+  }
+
+  @media (min-width: 900px) {
+    .cap-layout {
+      grid-template-columns: 1.6fr 1fr;
+      gap: 3.5rem;
+      align-items: center;
+    }
+
+    .cap-layout.layout-reverse {
+      grid-template-columns: 1fr 1.6fr;
+    }
+
+    .cap-layout.layout-reverse .cap-primary {
+      order: 2;
+    }
+
+    .cap-layout.layout-reverse .cap-sidebar {
+      order: 1;
+    }
+  }
+
+  .cap-header {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    margin-block-end: 1rem;
+  }
+
+  .cap-badge {
+    font-family: var(--font-mono);
+    font-size: 0.78rem;
+    font-weight: 600;
+    text-transform: uppercase;
+    letter-spacing: 0.08em;
+    color: var(--color-cyan);
+    background: rgba(41, 182, 212, 0.1);
+    padding: 0.35rem 0.85rem;
+    border-radius: var(--radius-full);
+    border: 1px solid rgba(41, 182, 212, 0.25);
+  }
+
+  .badge-featured {
+    background: rgba(41, 182, 212, 0.18);
+    border-color: var(--color-cyan);
+    color: #FFFFFF;
+    box-shadow: 0 0 12px rgba(41, 182, 212, 0.25);
+  }
+
+  .cap-icon-box {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    width: 48px;
+    height: 48px;
+    border-radius: var(--radius-md);
+    background: rgba(41, 182, 212, 0.12);
+    border: 1px solid rgba(41, 182, 212, 0.25);
+    color: var(--color-cyan);
+  }
+
+  .cap-title {
+    font-size: clamp(1.75rem, 3.2vw, 2.45rem);
+    font-weight: 700;
+    color: #FFFFFF;
+    margin-block-end: 1.5rem;
+  }
+
+  .cap-details-block {
+    display: flex;
+    flex-direction: column;
+    gap: 1.5rem;
+  }
+
+  .cap-block {
+    display: flex;
+    flex-direction: column;
+    gap: 0.4rem;
+  }
+
+  .block-label {
+    font-family: var(--font-mono);
+    font-size: 0.8rem;
+    font-weight: 600;
+    text-transform: uppercase;
+    letter-spacing: 0.06em;
+    color: var(--color-cyan);
+  }
+
+  .block-text {
+    font-size: 1.05rem;
+    color: #CBD5E1;
+    line-height: 1.65;
+    margin: 0;
+  }
+
+  .tools-card {
+    background: rgba(18, 26, 40, 0.8);
+    border: 1px solid rgba(41, 182, 212, 0.18);
+    border-radius: var(--radius-lg);
+    padding: 2rem;
+    display: flex;
+    flex-direction: column;
+    gap: 1.25rem;
+  }
+
+  .tools-card-title {
+    font-family: var(--font-heading);
+    font-size: 0.9rem;
+    font-weight: 600;
+    color: #FFFFFF;
+    text-transform: uppercase;
+    letter-spacing: 0.05em;
+  }
+
+  .tools-chip-cloud {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 0.5rem;
+  }
+
+  .tool-chip {
+    font-family: var(--font-mono);
+    font-size: 0.8125rem;
+    color: #B4C6E7;
+    background: rgba(23, 32, 49, 0.9);
+    border: 1px solid rgba(41, 182, 212, 0.15);
+    padding: 0.35rem 0.75rem;
+    border-radius: var(--radius-sm);
+  }
+
+  .btn-full {
+    width: 100%;
+    margin-top: 0.5rem;
+  }
+
+  /* Full Service List Tabs */
+  .full-services-section {
+    background-color: var(--color-light-surface);
+    color: var(--text-dark);
+  }
+
+  .section-header {
+    text-align: center;
+    max-width: 680px;
+    margin-inline: auto;
+    margin-block-end: 2.5rem;
+  }
+
+  .service-tabs-wrapper {
+    display: flex;
+    flex-direction: column;
+    gap: 2rem;
+  }
+
+  .tabs-nav {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 0.65rem;
+    justify-content: center;
+    border-bottom: 2px solid rgba(27, 63, 125, 0.08);
+    padding-bottom: 1rem;
+  }
+
+  .tab-button {
+    font-family: var(--font-heading);
+    font-size: 0.95rem;
+    font-weight: 600;
+    padding: 0.75rem 1.35rem;
+    border-radius: var(--radius-full);
+    background: #FFFFFF;
+    border: 1px solid rgba(27, 63, 125, 0.15);
+    color: #475569;
+    cursor: pointer;
+    transition: all 0.2s ease;
+  }
+
+  .tab-button:hover {
+    color: var(--color-brand-blue);
+    border-color: var(--color-brand-blue);
+  }
+
+  .tab-button.active {
+    background: var(--color-brand-blue);
+    border-color: var(--color-brand-blue);
+    color: #FFFFFF;
+    box-shadow: 0 4px 14px rgba(23, 99, 161, 0.25);
+  }
+
+  @media (max-width: 640px) {
+    .tab-button {
+      font-size: 0.825rem;
+      padding: 0.5rem 0.85rem;
+    }
+
+    .tools-card {
+      padding: 1.35rem 1.15rem;
+    }
+  }
+
+  .category-tab-panel {
+    display: none;
+    animation: fadeIn 0.3s ease;
+  }
+
+  .category-tab-panel.active {
+    display: block;
+  }
+
+  .services-list-grid {
+    display: grid;
+    grid-template-columns: 1fr;
+    gap: 1.25rem;
+  }
+
+  @media (min-width: 768px) {
+    .services-list-grid {
+      grid-template-columns: repeat(2, 1fr);
+    }
+  }
+
+  .service-item-card {
+    background: #FFFFFF;
+    border: 1px solid rgba(27, 63, 125, 0.1);
+    border-radius: var(--radius-md);
+    padding: 1.5rem;
+    box-shadow: var(--shadow-sm);
+    display: flex;
+    flex-direction: column;
+    gap: 0.5rem;
+  }
+
+  .service-item-header {
+    display: flex;
+    align-items: center;
+    gap: 0.65rem;
+  }
+
+  .item-check {
+    color: var(--color-brand-blue);
+    flex-shrink: 0;
+  }
+
+  .service-item-name {
+    font-size: 1.15rem;
+    font-weight: 600;
+    color: var(--color-navy);
+  }
+
+  .service-item-desc {
+    font-size: 0.925rem;
+    color: var(--text-muted-dark);
+    line-height: 1.55;
+    margin: 0;
+  }
+
+  /* Engagement Models */
+  .engagement-grid {
+    display: grid;
+    grid-template-columns: 1fr;
+    gap: 1.5rem;
+    margin-block-end: 2.5rem;
+  }
+
+  @media (min-width: 860px) {
+    .engagement-grid {
+      grid-template-columns: repeat(3, 1fr);
+    }
+  }
+
+  .engagement-card {
+    background: rgba(23, 32, 49, 0.75);
+    border: 1px solid rgba(41, 182, 212, 0.16);
+    border-radius: var(--radius-lg);
+    padding: 2rem;
+    display: flex;
+    flex-direction: column;
+    gap: 1rem;
+    transition: transform 0.25s ease, border-color 0.25s ease;
+  }
+
+  .engagement-card:hover {
+    transform: translateY(-4px);
+    border-color: rgba(41, 182, 212, 0.45);
+  }
+
+  .engagement-badge {
+    font-family: var(--font-mono);
+    font-size: 0.75rem;
+    font-weight: 600;
+    color: var(--color-cyan);
+    text-transform: uppercase;
+    letter-spacing: 0.05em;
+  }
+
+  .engagement-title {
+    font-size: 1.35rem;
+    font-weight: 600;
+    color: #FFFFFF;
+  }
+
+  .engagement-desc {
+    font-size: 0.95rem;
+    color: #94A3B8;
+    line-height: 1.6;
+    margin: 0;
+  }
+
+  .engagement-cta {
+    display: flex;
+    justify-content: center;
+  }
+</style>
+
+<script>
+  function initServiceTabs() {
+    const tabButtons = document.querySelectorAll<HTMLButtonElement>('.tab-button');
+    const tabPanels = document.querySelectorAll<HTMLElement>('.category-tab-panel');
+
+    tabButtons.forEach((btn) => {
+      btn.addEventListener('click', () => {
+        const targetId = btn.dataset.categoryTarget;
+        if (!targetId) return;
+
+        tabButtons.forEach((b) => {
+          const isSelected = b === btn;
+          b.classList.toggle('active', isSelected);
+          b.setAttribute('aria-selected', isSelected ? 'true' : 'false');
+        });
+
+        tabPanels.forEach((panel) => {
+          const isMatch = panel.id === `category-panel-${targetId}`;
+          panel.classList.toggle('active', isMatch);
+        });
+      });
+    });
+  }
+
+  if (document.readyState === 'loading') {
+    document.addEventListener('DOMContentLoaded', initServiceTabs);
+  } else {
+    initServiceTabs();
+  }
+</script>

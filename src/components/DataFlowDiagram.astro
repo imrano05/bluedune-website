@@ -1,0 +1,540 @@
+---
+// DataFlowDiagram: Interactive architectural data flow from Sources to Pipeline to Warehouse to Dashboards/AI
+const stages = [
+  {
+    id: "sources",
+    number: "01",
+    name: "Sources",
+    short: "Operational inputs",
+    description: "We extract and ingest data from existing operational databases, third-party APIs, spreadsheets, and file storages without disrupting daily operations.",
+    deliverables: ["Database connectors", "API listeners", "Webhook receivers", "Batch ingestion jobs"],
+    tools: ["PostgreSQL", "REST APIs", "AWS", "File feeds"],
+    icon: `<circle cx="12" cy="12" r="3"></circle><path d="M19.4 15a1.65 1.65 0 0 0 .33 1.82l.06.06a2 2 0 0 1 0 2.83 2 2 0 0 1-2.83 0l-.06-.06a1.65 1.65 0 0 0-1.82-.33 1.65 1.65 0 0 0-1 1.51V21a2 2 0 0 1-2 2 2 2 0 0 1-2-2v-.09A1.65 1.65 0 0 0 9 19.4a1.65 1.65 0 0 0-1.82.33l-.06.06a2 2 0 0 1-2.83 0 2 2 0 0 1 0-2.83l.06-.06a1.65 1.65 0 0 0 .33-1.82 1.65 1.65 0 0 0-1.51-1H3a2 2 0 0 1-2-2 2 2 0 0 1 2-2h.09A1.65 1.65 0 0 0 4.6 9a1.65 1.65 0 0 0-.33-1.82l-.06-.06a2 2 0 0 1 0-2.83 2 2 0 0 1 2.83 0l.06.06a1.65 1.65 0 0 0 1.82.33H9a1.65 1.65 0 0 0 1-1.51V3a2 2 0 0 1 2-2 2 2 0 0 1 2 2v.09a1.65 1.65 0 0 0 1 1.51 1.65 1.65 0 0 0 1.82-.33l.06-.06a2 2 0 0 1 2.83 0 2 2 0 0 1 0 2.83l-.06.06a1.65 1.65 0 0 0-.33 1.82V9a1.65 1.65 0 0 0 1.51 1H21a2 2 0 0 1 2 2 2 2 0 0 1-2 2h-.09a1.65 1.65 0 0 0-1.51 1z"></path>`
+  },
+  {
+    id: "pipeline",
+    number: "02",
+    name: "Pipeline",
+    short: "Validation & transformation",
+    description: "We clean, normalize, validate, and orchestrate automated data pipelines to transform disparate data into reliable, structured formats.",
+    deliverables: ["Automated ETL/ELT pipelines", "Data schema validation", "Error monitoring & retries", "Orchestration workflows"],
+    tools: ["Python", "Airflow", "dbt", "Docker"],
+    icon: `<polyline points="16 18 22 12 16 6"></polyline><polyline points="8 6 2 12 8 18"></polyline>`
+  },
+  {
+    id: "warehouse",
+    number: "03",
+    name: "Warehouse",
+    short: "Unified data foundation",
+    description: "We design and implement centralized analytical storage modeled for query performance, access governance, and scalable reporting.",
+    deliverables: ["Centralized analytical schema", "Curated data models", "Role-based access controls", "Optimized aggregations"],
+    tools: ["Snowflake", "PostgreSQL", "SQL", "Cloud Storage"],
+    icon: `<ellipse cx="12" cy="5" rx="9" ry="3"></ellipse><path d="M21 12c0 1.66-4 3-9 3s-9-1.34-9-3"></path><path d="M3 5v14c0 1.66 4 3 9 3s9-1.34 9-3V5"></path>`
+  },
+  {
+    id: "dashboards-ai",
+    number: "04",
+    name: "Dashboards / AI",
+    short: "Decisions & intelligence",
+    description: "We build intuitive business dashboards, automated workflow alerts, semantic document search (RAG), and assistive AI capabilities.",
+    deliverables: ["Operational BI dashboards", "Workflow automation agents", "Semantic document search", "Custom API endpoints"],
+    tools: ["Power BI", "React", "LangChain", "n8n", "FastAPI"],
+    icon: `<rect width="18" height="18" x="3" y="3" rx="2"></rect><line x1="3" y1="9" x2="21" y2="9"></line><line x1="9" y1="21" x2="9" y2="9"></line>`
+  }
+];
+---
+
+<section id="data-flow" class="section section-light flow-section" aria-labelledby="flow-heading">
+  <div class="container">
+    <div class="section-header reveal-on-scroll">
+      <span class="section-tag">
+        <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+          <polyline points="22 12 18 12 15 21 9 3 6 12 2 12"></polyline>
+        </svg>
+        Data Architecture
+      </span>
+      <h2 id="flow-heading" class="section-title">From scattered data to decisions</h2>
+      <p class="section-subtitle">
+        How raw operational information moves systematically through reliable stages into decisions and automated actions.
+      </p>
+    </div>
+
+    <!-- Interactive Stage Bar -->
+    <div class="flow-track-wrapper reveal-on-scroll">
+      <div class="flow-stages-row" role="tablist" aria-label="Data flow stages">
+        {stages.map((stage, idx) => (
+          <div class="stage-node-wrapper">
+            <button
+              class={`stage-button ${idx === 0 ? "active" : ""}`}
+              role="tab"
+              aria-selected={idx === 0 ? "true" : "false"}
+              aria-controls={`stage-panel-${stage.id}`}
+              id={`stage-tab-${stage.id}`}
+              data-stage-index={idx}
+              data-stage-id={stage.id}
+            >
+              <span class="stage-num">{stage.number}</span>
+              <div class="stage-icon-wrap" aria-hidden="true">
+                <svg
+                  width="22"
+                  height="22"
+                  viewBox="0 0 24 24"
+                  fill="none"
+                  stroke="currentColor"
+                  stroke-width="1.8"
+                  stroke-linecap="round"
+                  stroke-linejoin="round"
+                  set:html={stage.icon}
+                />
+              </div>
+              <span class="stage-label">{stage.name}</span>
+              <span class="stage-short">{stage.short}</span>
+              <span class="pulse-indicator" aria-hidden="true"></span>
+            </button>
+            {idx < stages.length - 1 && (
+              <div class="stage-connector" aria-hidden="true">
+                <div class="connector-line">
+                  <span class="connector-pulse"></span>
+                </div>
+                <svg class="connector-arrow" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                  <polyline points="9 18 15 12 9 6"></polyline>
+                </svg>
+              </div>
+            )}
+          </div>
+        ))}
+      </div>
+    </div>
+
+    <!-- Active Stage Detail Display -->
+    <div class="flow-detail-container reveal-on-scroll">
+      {stages.map((stage, idx) => (
+        <div
+          id={`stage-panel-${stage.id}`}
+          class={`stage-detail-panel ${idx === 0 ? "active" : ""}`}
+          role="tabpanel"
+          aria-labelledby={`stage-tab-${stage.id}`}
+        >
+          <div class="detail-card">
+            <div class="detail-left">
+              <div class="detail-tag">Stage {stage.number} &mdash; What we build</div>
+              <h3 class="detail-title">{stage.name}</h3>
+              <p class="detail-desc">{stage.description}</p>
+              
+              <div class="detail-tools-block">
+                <span class="tools-heading">Typical tooling:</span>
+                <div class="tools-list">
+                  {stage.tools.map((tool) => (
+                    <span class="tool-tag">{tool}</span>
+                  ))}
+                </div>
+              </div>
+            </div>
+
+            <div class="detail-right">
+              <h4 class="deliverables-heading">Key deliverables:</h4>
+              <ul class="deliverables-list" role="list">
+                {stage.deliverables.map((item) => (
+                  <li class="deliverable-item">
+                    <svg class="check-icon" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+                      <polyline points="20 6 9 17 4 12"></polyline>
+                    </svg>
+                    <span>{item}</span>
+                  </li>
+                ))}
+              </ul>
+            </div>
+          </div>
+        </div>
+      ))}
+    </div>
+  </div>
+</section>
+
+<style>
+  .flow-section {
+    background-color: var(--color-light-surface);
+    color: var(--text-dark);
+    position: relative;
+    border-block: 1px solid rgba(27, 63, 125, 0.08);
+  }
+
+  .section-header {
+    text-align: center;
+    max-width: 680px;
+    margin-inline: auto;
+    margin-block-end: clamp(2.5rem, 5vw, 3.5rem);
+  }
+
+  .flow-track-wrapper {
+    margin-block-end: 2.5rem;
+    overflow-x: auto;
+    padding-block: 1rem;
+    -webkit-overflow-scrolling: touch;
+  }
+
+  .flow-stages-row {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    min-width: 760px;
+    gap: 0.5rem;
+  }
+
+  .stage-node-wrapper {
+    display: flex;
+    align-items: center;
+    flex: 1;
+  }
+
+  .stage-button {
+    position: relative;
+    flex: 1;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    text-align: center;
+    gap: 0.4rem;
+    padding: 1.5rem 1rem;
+    background: #FFFFFF;
+    border: 2px solid rgba(27, 63, 125, 0.12);
+    border-radius: var(--radius-md);
+    cursor: pointer;
+    box-shadow: 0 4px 14px rgba(23, 32, 49, 0.04);
+    transition: all 0.25s cubic-bezier(0.16, 1, 0.3, 1);
+  }
+
+  .stage-button:hover {
+    border-color: var(--color-brand-blue);
+    transform: translateY(-3px);
+    box-shadow: 0 8px 24px rgba(23, 32, 49, 0.08);
+  }
+
+  .stage-button.active {
+    border-color: var(--color-cyan);
+    background: #FFFFFF;
+    box-shadow: 0 10px 28px rgba(41, 182, 212, 0.18);
+    transform: translateY(-4px);
+  }
+
+  .stage-num {
+    font-family: var(--font-mono);
+    font-size: 0.75rem;
+    font-weight: 700;
+    color: #94A3B8;
+    letter-spacing: 0.05em;
+  }
+
+  .stage-button.active .stage-num {
+    color: var(--color-brand-blue);
+  }
+
+  .stage-icon-wrap {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    width: 44px;
+    height: 44px;
+    border-radius: 50%;
+    background: #F0F4F8;
+    color: var(--color-deep-blue);
+    transition: all 0.25s ease;
+  }
+
+  .stage-button:hover .stage-icon-wrap {
+    color: var(--color-brand-blue);
+    background: #E2ECF6;
+  }
+
+  .stage-button.active .stage-icon-wrap {
+    background: var(--color-brand-blue);
+    color: #FFFFFF;
+  }
+
+  .stage-label {
+    font-family: var(--font-heading);
+    font-size: 1.05rem;
+    font-weight: 600;
+    color: var(--color-navy);
+  }
+
+  .stage-short {
+    font-size: 0.8125rem;
+    color: var(--text-muted-dark);
+  }
+
+  .pulse-indicator {
+    position: absolute;
+    bottom: -6px;
+    width: 12px;
+    height: 12px;
+    border-radius: 50%;
+    background: var(--color-cyan);
+    opacity: 0;
+    transform: scale(0.5);
+    transition: all 0.25s ease;
+  }
+
+  .stage-button.active .pulse-indicator {
+    opacity: 1;
+    transform: scale(1);
+    box-shadow: 0 0 10px var(--color-cyan);
+  }
+
+  /* Stage Connector */
+  .stage-connector {
+    display: flex;
+    align-items: center;
+    padding-inline: 0.5rem;
+    color: #CBD5E1;
+  }
+
+  .connector-line {
+    position: relative;
+    width: 28px;
+    height: 2px;
+    background: #CBD5E1;
+    overflow: hidden;
+  }
+
+  .connector-pulse {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background: linear-gradient(90deg, transparent, var(--color-cyan), transparent);
+    animation: flow-pulse 2.2s infinite;
+  }
+
+  @keyframes flow-pulse {
+    0% { transform: translateX(-100%); }
+    100% { transform: translateX(100%); }
+  }
+
+  /* Stage Detail Card */
+  .flow-detail-container {
+    position: relative;
+  }
+
+  .stage-detail-panel {
+    display: none;
+    animation: fadeIn 0.35s ease;
+  }
+
+  .stage-detail-panel.active {
+    display: block;
+  }
+
+  @keyframes fadeIn {
+    from { opacity: 0; transform: translateY(8px); }
+    to { opacity: 1; transform: translateY(0); }
+  }
+
+  .detail-card {
+    background: #FFFFFF;
+    border: 1px solid rgba(27, 63, 125, 0.12);
+    border-radius: var(--radius-lg);
+    padding: clamp(1.75rem, 4vw, 2.75rem);
+    box-shadow: var(--shadow-md);
+    display: grid;
+    grid-template-columns: 1fr;
+    gap: 2rem;
+  }
+
+  @media (min-width: 860px) {
+    .detail-card {
+      grid-template-columns: 1.4fr 1fr;
+      gap: 3rem;
+    }
+  }
+
+  .detail-tag {
+    font-family: var(--font-mono);
+    font-size: 0.8rem;
+    font-weight: 600;
+    color: var(--color-brand-blue);
+    text-transform: uppercase;
+    letter-spacing: 0.06em;
+    margin-block-end: 0.5rem;
+  }
+
+  .detail-title {
+    font-size: 1.65rem;
+    font-weight: 700;
+    color: var(--color-navy);
+    margin-block-end: 0.75rem;
+  }
+
+  .detail-desc {
+    font-size: 1.05rem;
+    color: var(--text-muted-dark);
+    line-height: 1.65;
+    margin-block-end: 1.5rem;
+  }
+
+  .detail-tools-block {
+    display: flex;
+    flex-direction: column;
+    gap: 0.65rem;
+  }
+
+  .tools-heading {
+    font-family: var(--font-mono);
+    font-size: 0.8rem;
+    font-weight: 600;
+    color: var(--color-navy);
+    text-transform: uppercase;
+    letter-spacing: 0.05em;
+  }
+
+  .tools-list {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 0.5rem;
+  }
+
+  .tool-tag {
+    font-family: var(--font-mono);
+    font-size: 0.8rem;
+    padding: 0.3rem 0.75rem;
+    background: #F0F4F8;
+    color: var(--color-deep-blue);
+    border-radius: var(--radius-sm);
+    font-weight: 500;
+  }
+
+  .detail-right {
+    background: #F8FAFC;
+    padding: 1.75rem;
+    border-radius: var(--radius-md);
+    border: 1px solid #E2E8F0;
+  }
+
+  .deliverables-heading {
+    font-family: var(--font-heading);
+    font-size: 0.95rem;
+    font-weight: 600;
+    color: var(--color-navy);
+    margin-block-end: 1rem;
+    text-transform: uppercase;
+    letter-spacing: 0.05em;
+  }
+
+  .deliverables-list {
+    list-style: none;
+    display: flex;
+    flex-direction: column;
+    gap: 0.85rem;
+  }
+
+  .deliverable-item {
+    display: flex;
+    align-items: flex-start;
+    gap: 0.65rem;
+    font-size: 0.925rem;
+    color: #334155;
+    line-height: 1.45;
+  }
+
+  .check-icon {
+    color: var(--color-brand-blue);
+    margin-top: 2px;
+    flex-shrink: 0;
+  }
+
+  @media (max-width: 768px) {
+    .flow-track-wrapper {
+      overflow-x: visible;
+      padding-block: 0.5rem;
+    }
+
+    .flow-stages-row {
+      display: grid;
+      grid-template-columns: repeat(2, 1fr);
+      min-width: 0;
+      gap: 0.75rem;
+    }
+
+    .stage-connector {
+      display: none;
+    }
+
+    .stage-node-wrapper {
+      width: 100%;
+    }
+
+    .stage-button {
+      width: 100%;
+      padding: 1.1rem 0.75rem;
+    }
+
+    .detail-card {
+      padding: 1.35rem;
+      gap: 1.5rem;
+    }
+
+    .detail-title {
+      font-size: 1.35rem;
+    }
+  }
+</style>
+
+<script>
+  function initDataFlowDiagram() {
+    const stageButtons = document.querySelectorAll<HTMLButtonElement>('.stage-button');
+    const stagePanels = document.querySelectorAll<HTMLElement>('.stage-detail-panel');
+
+    function setActiveStage(stageId: string) {
+      stageButtons.forEach((btn) => {
+        const isMatch = btn.dataset.stageId === stageId;
+        btn.classList.toggle('active', isMatch);
+        btn.setAttribute('aria-selected', isMatch ? 'true' : 'false');
+      });
+
+      stagePanels.forEach((panel) => {
+        const isMatch = panel.id === `stage-panel-${stageId}`;
+        panel.classList.toggle('active', isMatch);
+      });
+    }
+
+    stageButtons.forEach((btn) => {
+      btn.addEventListener('click', () => {
+        const stageId = btn.dataset.stageId;
+        if (stageId) setActiveStage(stageId);
+      });
+
+      btn.addEventListener('mouseenter', () => {
+        const stageId = btn.dataset.stageId;
+        if (stageId) setActiveStage(stageId);
+      });
+    });
+
+    // Sequential scroll illumination
+    if ('IntersectionObserver' in window && !window.matchMedia('(prefers-reduced-motion: reduce)').matches) {
+      const section = document.getElementById('data-flow');
+      if (section) {
+        let hasPlayedSequence = false;
+        const observer = new IntersectionObserver((entries) => {
+          if (entries[0].isIntersecting && !hasPlayedSequence) {
+            hasPlayedSequence = true;
+            const stages = ['sources', 'pipeline', 'warehouse', 'dashboards-ai'];
+            stages.forEach((st, i) => {
+              setTimeout(() => {
+                setActiveStage(st);
+              }, i * 600);
+            });
+          }
+        }, { threshold: 0.35 });
+
+        observer.observe(section);
+      }
+    }
+  }
+
+  if (document.readyState === 'loading') {
+    document.addEventListener('DOMContentLoaded', initDataFlowDiagram);
+  } else {
+    initDataFlowDiagram();
+  }
+</script>

@@ -1,0 +1,128 @@
+---
+// TechMarquee: A slim row of technology names with slow marquee animation that pauses on hover
+const technologies = [
+  "Python",
+  "SQL",
+  "PostgreSQL",
+  "Snowflake",
+  "AWS",
+  "Docker",
+  "FastAPI",
+  "React",
+  "Flutter",
+  "Power BI",
+  "n8n"
+];
+---
+
+<div class="tech-marquee-section" aria-label="Core technologies">
+  <div class="marquee-track-wrapper">
+    <div class="marquee-content">
+      {technologies.map((tech) => (
+        <div class="tech-badge">
+          <span class="tech-dot" aria-hidden="true"></span>
+          <span class="tech-name">{tech}</span>
+        </div>
+      ))}
+    </div>
+    <!-- Duplicate for infinite seamless scroll -->
+    <div class="marquee-content" aria-hidden="true">
+      {technologies.map((tech) => (
+        <div class="tech-badge">
+          <span class="tech-dot" aria-hidden="true"></span>
+          <span class="tech-name">{tech}</span>
+        </div>
+      ))}
+    </div>
+  </div>
+</div>
+
+<style>
+  .tech-marquee-section {
+    width: 100%;
+    background-color: #121a28;
+    border-block: 1px solid rgba(41, 182, 212, 0.12);
+    padding-block: 1.1rem;
+    overflow: hidden;
+    position: relative;
+    mask-image: linear-gradient(to right, transparent, black 12%, black 88%, transparent);
+    -webkit-mask-image: linear-gradient(to right, transparent, black 12%, black 88%, transparent);
+  }
+
+  .marquee-track-wrapper {
+    display: flex;
+    width: max-content;
+    gap: 1.5rem;
+  }
+
+  .marquee-content {
+    display: flex;
+    align-items: center;
+    gap: 1.5rem;
+    animation: marquee-scroll 45s linear infinite;
+    will-change: transform;
+  }
+
+  .tech-marquee-section:hover .marquee-content {
+    animation-play-state: paused;
+  }
+
+  .tech-badge {
+    display: inline-flex;
+    align-items: center;
+    gap: 0.6rem;
+    padding-inline: 1rem;
+    padding-block: 0.4rem;
+    border-radius: var(--radius-full);
+    background: rgba(23, 32, 49, 0.6);
+    border: 1px solid rgba(41, 182, 212, 0.14);
+    transition: border-color 0.2s ease, background-color 0.2s ease, transform 0.2s ease;
+    cursor: default;
+  }
+
+  .tech-badge:hover {
+    border-color: var(--color-cyan);
+    background: rgba(41, 182, 212, 0.1);
+    transform: translateY(-1px);
+  }
+
+  .tech-dot {
+    width: 6px;
+    height: 6px;
+    border-radius: 50%;
+    background-color: var(--color-cyan);
+    box-shadow: 0 0 8px var(--color-cyan);
+  }
+
+  .tech-name {
+    font-family: var(--font-mono);
+    font-size: 0.875rem;
+    font-weight: 500;
+    color: #CBD5E1;
+    letter-spacing: 0.02em;
+    white-space: nowrap;
+  }
+
+  @keyframes marquee-scroll {
+    from {
+      transform: translateX(0);
+    }
+    to {
+      transform: translateX(-100%);
+    }
+  }
+
+  @media (prefers-reduced-motion: reduce) {
+    .marquee-content {
+      animation: none;
+    }
+    .marquee-track-wrapper {
+      flex-wrap: wrap;
+      justify-content: center;
+      width: 100%;
+    }
+    .marquee-content[aria-hidden="true"] {
+      display: none;
+    }
+  }
+</style>

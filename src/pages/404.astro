@@ -1,0 +1,162 @@
+---
+import BaseLayout from '../layouts/BaseLayout.astro';
+---
+
+<BaseLayout
+  title="404 - Page Not Found | BlueDuneSolution"
+  description="The requested page could not be found."
+>
+  <section class="section section-dark error-page-section">
+    <div class="container container-narrow">
+      <div class="error-card reveal-on-scroll">
+        <div class="error-badge">
+          <span class="error-dot" aria-hidden="true"></span>
+          <span>HTTP 404 &mdash; Routing Exception</span>
+        </div>
+
+        <h1 class="error-code">404</h1>
+        <h2 class="error-title">Requested node not found.</h2>
+        <p class="error-desc">
+          The URL you requested does not exist on this server or has been relocated within our architecture.
+        </p>
+
+        <div class="error-actions">
+          <a href="/" class="btn btn-primary">
+            <span>Return to Homepage</span>
+            <svg class="arrow-icon" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round">
+              <line x1="5" y1="12" x2="19" y2="12"></line>
+              <polyline points="12 5 19 12 12 19"></polyline>
+            </svg>
+          </a>
+          <a href="/contact" class="btn btn-secondary">
+            <span>Contact Us</span>
+          </a>
+        </div>
+
+        <div class="error-sitemap-links">
+          <span class="links-title">Quick navigation:</span>
+          <div class="links-row">
+            <a href="/">Home</a>
+            <a href="/services">Services</a>
+            <a href="/work">Work</a>
+            <a href="/process">Process</a>
+            <a href="/contact">Contact</a>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+</BaseLayout>
+
+<style>
+  .error-page-section {
+    min-height: calc(100vh - var(--header-height) - 150px);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    padding-block: 4rem;
+    background: radial-gradient(circle at 50% 40%, rgba(27, 63, 125, 0.25) 0%, transparent 60%), #172031;
+  }
+
+  .error-card {
+    background: #121A28;
+    border: 1px solid rgba(41, 182, 212, 0.22);
+    border-radius: var(--radius-xl);
+    padding: clamp(2.5rem, 6vw, 4.5rem) clamp(1.5rem, 5vw, 3rem);
+    text-align: center;
+    box-shadow: 0 20px 50px rgba(0, 0, 0, 0.5);
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+  }
+
+  .error-badge {
+    display: inline-flex;
+    align-items: center;
+    gap: 0.5rem;
+    font-family: var(--font-mono);
+    font-size: 0.8rem;
+    color: var(--color-cyan);
+    background: rgba(41, 182, 212, 0.1);
+    border: 1px solid rgba(41, 182, 212, 0.25);
+    padding: 0.35rem 0.85rem;
+    border-radius: var(--radius-full);
+    margin-block-end: 1rem;
+  }
+
+  .error-dot {
+    width: 6px;
+    height: 6px;
+    border-radius: 50%;
+    background-color: var(--color-cyan);
+  }
+
+  .error-code {
+    font-family: var(--font-mono);
+    font-size: clamp(4.5rem, 10vw, 7.5rem);
+    font-weight: 700;
+    line-height: 1;
+    color: transparent;
+    background: linear-gradient(180deg, #FFFFFF 0%, #29B6D4 100%);
+    -webkit-background-clip: text;
+    background-clip: text;
+    margin-block-end: 0.5rem;
+    letter-spacing: -0.05em;
+  }
+
+  .error-title {
+    font-size: clamp(1.5rem, 3vw, 2.1rem);
+    color: #FFFFFF;
+    margin-block-end: 1rem;
+  }
+
+  .error-desc {
+    font-size: 1.05rem;
+    color: #94A3B8;
+    max-width: 500px;
+    line-height: 1.6;
+    margin-block-end: 2rem;
+  }
+
+  .error-actions {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    flex-wrap: wrap;
+    gap: 1rem;
+    margin-block-end: 2.5rem;
+  }
+
+  .error-sitemap-links {
+    padding-top: 2rem;
+    border-top: 1px solid rgba(255, 255, 255, 0.08);
+    display: flex;
+    flex-direction: column;
+    gap: 0.75rem;
+  }
+
+  .links-title {
+    font-family: var(--font-mono);
+    font-size: 0.78rem;
+    color: var(--text-muted-light);
+    text-transform: uppercase;
+    letter-spacing: 0.05em;
+  }
+
+  .links-row {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: center;
+    gap: 1.25rem;
+  }
+
+  .links-row a {
+    color: #B4C6E7;
+    font-size: 0.9rem;
+    transition: color 0.2s ease;
+  }
+
+  .links-row a:hover {
+    color: var(--color-cyan);
+  }
+</style>
