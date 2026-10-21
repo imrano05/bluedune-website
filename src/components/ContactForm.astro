@@ -539,6 +539,20 @@ const web3FormsKey = import.meta.env.PUBLIC_WEB3FORMS_KEY || "86e757e5-5174-43cd
 
       let hasError = false;
 
+      // Rate limiting: prevent repeated submissions within 60 seconds
+      const COOLDOWN_SECONDS = 60;
+      const lastSubmission = localStorage.getItem('bluedune_last_submit_ts');
+      if (lastSubmission) {
+        const timeElapsed = (Date.now() - parseInt(lastSubmission, 10)) / 1000;
+        if (timeElapsed < COOLDOWN_SECONDS) {
+          const remaining = Math.ceil(COOLDOWN_SECONDS - timeElapsed);
+          banner.className = 'status-banner error';
+          banner.innerHTML = `<strong>Please wait:</strong> You recently submitted a brief. To prevent duplicates, please wait ${remaining} seconds before submitting again, or email us directly at <a href="mailto:info@bluedune.tech" style="color: #FFFFFF; text-decoration: underline;">info@bluedune.tech</a>.`;
+          banner.style.display = 'block';
+          return;
+        }
+      }
+
       // Validate Name
       const nameInput = form.elements.namedItem('name') as HTMLInputElement;
       if (!nameInput.value.trim()) {
@@ -637,6 +651,8 @@ const web3FormsKey = import.meta.env.PUBLIC_WEB3FORMS_KEY || "86e757e5-5174-43cd
         const result = await response.json();
 
         if (response.ok && result.success) {
+          // Record successful submission timestamp for client-side rate limiting
+          localStorage.setItem('bluedune_last_submit_ts', Date.now().toString());
           banner.className = 'status-banner success';
           banner.innerHTML = `<strong>Thank you!</strong> Your project brief has been received. We will review your requirements and respond within one business day.`;
           banner.style.display = 'block';
